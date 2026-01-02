@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>乙仔書籤小工具收集網</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      text-align: center;
+      background-color: #f9f9f9;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 0.5em;
+    }
+    p {
+      font-size: 1em;
+      color: #444;
+    }
+    .bookmarklet {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #007acc;
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 20px;
+      cursor: grab;
+    }
+    .bookmarklet:hover {
+      background-color: #005fa3;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>乙仔書籤小工具收集網</h1>
+  <p>請將下方任一按鈕拖曳至瀏覽器書籤列，點擊即可自動啟用對應功能。</p>
+
+  <div id="hidden-features" style="display: none;">
+    <!-- 自動填答書籤 -->
+    <h2>自動填答書籤</h2>
+    <a class="bookmarklet" href="javascript:(function(){
+      try {
+        let rows = document.querySelectorAll('tr[name=&quot;h&quot;]');
+        let filled = 0;
+        rows.forEach(row => {
+          let answerInput = row.querySelector('input[type=hidden][name=&quot;reqans[]&quot;]');
+          if (!answerInput) return;
+          let correct = answerInput.value;
+          let radios = row.querySelectorAll('input[type=radio]');
+          radios.forEach(radio => {
+            if (radio.value === correct) {
+              radio.checked = true;
+              filled++;
+            }
+          });
+        });
+        alert('✅ 自動填答完成，共填答 ' + filled + ' 題');
+      } catch(e) {
+        alert('⚠️ 錯誤：' + e.message);
+      }
+    })();">自動填答書籤</a>
+
+    <!-- 自動影片儲存書籤 -->
+    <h2>自動影片儲存書籤</h2>
+    <a class="bookmarklet" id="bookmarklet-link" href="javascript:(async()%3D%3E%7Blet%20options%3D%24('%23videoDDL%20option').get()%3Blet%20videoSrcs%3Doptions.map(op%3D%3Eop.value)%3Blet%20videoNames%3Doptions.map(op%3D%3Eop.innerText)%3Basync%20function%20loadVideoAndGetDuration(videoSrc)%7Breturn%20new%20Promise((resolve%2Creject)%3D%3E%7Blet%20player%3Dvideojs(%22my-video%22)%3Bplayer.src(videoSrc)%3Bplayer.on('loadedmetadata'%2C()%3D%3Eresolve(Math.floor(player.duration())))%3Bplayer.on('error'%2C()%3D%3Ereject(new%20Error('%E5%BD%B1%E7%89%87%E8%BC%89%E5%85%A5%E5%A4%B1%E6%95%97')))%3BsetTimeout(()%3D%3Ereject(new%20Error('%E8%BC%89%E5%85%A5%E8%B6%85%E6%99%82'))%2C10000)%3B%7D)%3B%7Dfunction%20saveMedia()%7Breturn%20new%20Promise((resolve%2Creject)%3D%3E%7B%24.post(%22%2FEL_MediaPlay%2FSave%22%2C%24(%22%23fm%22).serialize()).done(response%3D%3Eresolve(response)).fail(error%3D%3Ereject(error))%3B%7D)%3B%7Dfor(let%20i%3D0%3Bi%3CvideoSrcs.length%3Bi%2B%2B)%7B%24(%22%23Medianame%22).val(videoNames%5Bi%5D)%3B%24(%22%23MediaNo%22).val(%24(%22input%5Bname%3D'%22%2BvideoNames%5Bi%5D%2B%22'%5D%22).val())%3Bconst%20start%3Dnew%20Date()%3Btry%7Bconst%20duration%3Dawait%20loadVideoAndGetDuration(videoSrcs%5Bi%5D)%3Bconsole.log('cost'%2C((new%20Date()).getTime()-start.getTime())%2F1000%2C'%E7%A7%92'%2CvideoSrcs%5Bi%5D%2CvideoNames%5Bi%5D%2Cduration)%3Bif(duration%26%26duration%3E0)%7B%24(%22%23Medianame%22).val(videoNames%5Bi%5D)%3B%24(%22%23MediaNo%22).val(%24(%22input%5Bname%3D'%22%2BvideoNames%5Bi%5D%2B%22'%5D%22).val())%3B%24('%23videotimes').val(duration)%3Btry%7Bconst%20resp%3Dawait%20saveMedia()%3Bconsole.log(%60%E7%AC%AC%20%24%7Bi%2B1%7D%20%E5%80%8B%E5%BD%B1%E7%89%87%E4%BF%9D%E5%AD%98%E6%88%90%E5%8A%9F%60%2Cresp)%3B%7Dcatch(error)%7Bconsole.error(%60%E7%AC%AC%20%24%7Bi%2B1%7D%20%E5%80%8B%E5%BD%B1%E7%89%87%E4%BF%9D%E5%AD%98%E5%A4%B1%E6%95%97%3A%60%2Cerror)%3B%7D%7D%7Dcatch(e)%7Bconsole.error(%60%E7%AC%AC%20%24%7Bi%2B1%7D%20%E5%80%8B%E5%BD%B1%E7%89%87%E7%99%BC%E7%94%9F%E9%8C%AF%E8%AA%A4%60%2Ce)%3B%7D%7Dconsole.log('done')%3BsetTimeout(()%3D%3Ewindow.close()%2C1000)%3B%7D)()%3B">自動影片書籤</a>
+  </div>
+
+  <div id="password-section" style="margin-top: 40px; margin-bottom: 20px;">
+    <input type="password" id="password-input" placeholder="輸入密碼解鎖進階功能" style="padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; width: 250px;">
+    <button id="unlock-button" class="bookmarklet" style="padding: 10px 20px; margin: 0 0 0 10px; vertical-align: middle;">解鎖</button>
+  </div>
+
+  <!-- 基金理財網不分頁 -->
+  <h2>基金理財網不分頁</h2>
+  <p>基金理財網增加選項"不分頁"一次顯示全部基金</p>
+  <a class="bookmarklet" href="javascript:(function() { var xpath = &quot;/html/body/div/div[1]/div[1]/div[1]/div/label/select&quot;; var selectElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; if (selectElement) { if (!selectElement.querySelector(&quot;option[value='9999']&quot;)) { var option = document.createElement('option'); option.value = '9999'; option.text = '不分頁'; selectElement.appendChild(option); } selectElement.value = '9999'; if (typeof jQuery !== 'undefined') { jQuery(selectElement).change(); } else { var event = new Event('change', { 'bubbles': true }); selectElement.dispatchEvent(event); } } else { alert('錯誤：找不到下拉選單。'); } })();">基金理財網不分頁</a>
+
+  <!-- 文章總結 -->
+  <h2>文章總結</h2>
+  <p>可以透過此網頁使用公司禁用的AI網頁文章總結和條列式摘要功能</p>
+  <a class="bookmarklet" href="javascript:void(location.href='https://kagi.com/summarizer/index.html?target_language=&summary=takeaway&url=%27+encodeURIComponent(location.href))">文章總結</a>
+
+  <!-- 解除右鍵與複製限制 -->
+  <h2>解除右鍵與複製限制</h2>
+  <p>當頁面無法使用右鍵或選取複製文字時，點擊此書籤即可解除限制。</p>
+  <a class="bookmarklet" href="javascript:!function(){function t(e){e.stopPropagation(),e.stopImmediatePropagation&&e.stopImmediatePropagation()}document.querySelectorAll('*').forEach(e=>{'none'===window.getComputedStyle(e,null).getPropertyValue('user-select')&&e.style.setProperty('user-select','text','important')}),['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'].forEach(function(e){document.documentElement.addEventListener(e,t,{capture:!0})}),alert('解除限制成功啦！')}();">🔓解鎖限制</a>
+
+<!-- 解除右鍵與複製限制(加強版) -->
+<h2>解除右鍵與複製限制(加強版)</h2>
+<p>當頁面無法使用右鍵或選取複製文字時，點擊此書籤即可解除限制。<br>（針對極少數用JS強制攔截複製/右鍵的網站加強破解，用捕獲階段攔截相關事件，阻止網站 JS 攔截。）</p>
+<a class="bookmarklet" href="javascript:(function(){var events=['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'];document.querySelectorAll('*').forEach(function(el){events.forEach(function(ev){el['on'+ev]=null;});el.style&&el.style.setProperty&&el.style.setProperty('user-select','text','important');});events.forEach(function(ev){document.addEventListener(ev,function(e){e.stopPropagation();},true);});document.body.setAttribute('contenteditable','true');alert('解除限制成功啦！可自由複製、右鍵、選取！');})();">🔓解鎖限制(加強版)</a>
+
+  <!-- 網頁備份 -->
+  <h2>網頁備份</h2>
+  <p>不會用，聽說除了用來備份網頁之外，有些網站可以繞過paywall，直接在上面看，例如WSJ。</p>
+  <a class="bookmarklet" href="javascript:(function(){const url=new URL(location.href);url.search='';window.open('https://archive.ph/'+url.toString(),'archiveTab')})();">網頁備份</a>
+
+  <!-- 範例網站 -->
+  <h2>範例網站</h2>
+  <p>這是一個禁用滑鼠右鍵與選取複製的網站，可以用上面的「解除限制」書籤來測試效果：</p>
+  <p><a href="https://sfbook.com/scales.htm" target="_blank">Book review of Scales by Christopher Hinz</a></p>
+  <p></p>
+  <p></p>
+
+  <footer></footer>
+
+  <script>
+    const code = `(async()=>{let options=$('#videoDDL option').get();let videoSrcs=options.map(op=>op.value);let videoNames=options.map(op=>op.innerText);async function loadVideoAndGetDuration(videoSrc){return new Promise((resolve,reject)=>{let player=videojs("my-video");player.src(videoSrc);player.on('loadedmetadata',()=>resolve(Math.floor(player.duration())));player.on('error',()=>reject(new Error('影片載入失敗')));setTimeout(()=>reject(new Error('載入超時')),10000);});}function saveMedia(){return new Promise((resolve,reject)=>{$.post("/EL_MediaPlay/Save",$("#fm").serialize()).done(response=>resolve(response)).fail(error=>reject(error));});}for(let i=0;i<videoSrcs.length;i++){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());const start=new Date();try{const duration=await loadVideoAndGetDuration(videoSrcs[i]);console.log('cost',((new Date()).getTime()-start.getTime())/1000,'秒',videoSrcs[i],videoNames[i],duration);if(duration&&duration>0){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());$('#videotimes').val(duration);try{const resp=await saveMedia();console.log(\"`第 ${i+1} 個影片保存成功\`,resp);}
+catch(error){console.error(\`第 ${i+1} 個影片保存失敗:\`,error);}}}catch(e){console.error(\`第 ${i+1} 個影片發生錯誤\`,e);}}console.log('done');setTimeout(()=>window.close(),1000);})();`;
+    
+    const bookmarkHref = 'javascript:' + encodeURIComponent(code);
+    document.getElementById('bookmarklet-link').href = bookmarkHref;
+  </script>
+
+  <script>
+    document.getElementById('unlock-button').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password-input');
+      if (passwordInput.value === '6322441') {
+        document.getElementById('hidden-features').style.display = 'block';
+        document.getElementById('password-section').style.display = 'none';
+      } else {
+        alert('密碼錯誤');
+        passwordInput.value = '';
+      }
+    });
+    document.getElementById('password-input').addEventListener('keyup', function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('unlock-button').click();
+        }
+    });
+  </script>
+
+</body>
+</html>
