@@ -99,17 +99,17 @@
 <p>當頁面無法使用右鍵或選取複製文字時，點擊此書籤即可解除限制。<br>（針對極少數用JS強制攔截複製/右鍵的網站加強破解，用捕獲階段攔截相關事件，阻止網站 JS 攔截。）</p>
 <a class="bookmarklet" href="javascript:(function(){var events=['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'];document.querySelectorAll('*').forEach(function(el){events.forEach(function(ev){el['on'+ev]=null;});el.style&&el.style.setProperty&&el.style.setProperty('user-select','text','important');});events.forEach(function(ev){document.addEventListener(ev,function(e){e.stopPropagation();},true);});document.body.setAttribute('contenteditable','true');alert('解除限制成功啦！可自由複製、右鍵、選取！');})();">🔓解鎖限制(加強版)</a>
 
-  <!-- 網頁備份 -->
-  <h2>網頁備份</h2>
-  <p>不會用，聽說除了用來備份網頁之外，有些網站可以繞過paywall，直接在上面看，例如WSJ。</p>
-  <a class="bookmarklet" href="javascript:(function(){const url=new URL(location.href);url.search='';window.open('https://archive.ph/'+url.toString(),'archiveTab')})();">網頁備份</a>
-
   <!-- 範例網站 -->
   <h2>範例網站</h2>
   <p>這是一個禁用滑鼠右鍵與選取複製的網站，可以用上面的「解除限制」書籤來測試效果：</p>
   <p><a href="https://sfbook.com/scales.htm" target="_blank">Book review of Scales by Christopher Hinz</a></p>
   <p></p>
   <p></p>
+
+  <!-- 網頁備份 -->
+  <h2>網頁備份</h2>
+  <p>不會用，聽說除了用來備份網頁之外，有些網站可以繞過paywall，直接在上面看，例如WSJ。</p>
+  <a class="bookmarklet" href="javascript:(function(){const url=new URL(location.href);url.search='';window.open('https://archive.ph/'+url.toString(),'archiveTab')})();">網頁備份</a>
 
   <footer></footer>
 
