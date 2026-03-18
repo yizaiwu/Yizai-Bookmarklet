@@ -520,6 +520,60 @@
                 letter-spacing: 3px;
             }
 
+            .related-section {
+                max-width: 1200px;
+                margin: 50px auto;
+            }
+
+            .related-section h2 {
+                font-family: "Orbitron", sans-serif;
+                text-align: center;
+                font-size: 1.5em;
+                color: var(--neon-purple);
+                margin-bottom: 30px;
+                text-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+                letter-spacing: 3px;
+            }
+
+            .related-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            @media (max-width: 900px) {
+                .related-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+
+            @media (max-width: 600px) {
+                .related-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .related-grid .tool-card .bookmarklet {
+                background: linear-gradient(
+                    135deg,
+                    rgba(157, 0, 255, 0.25),
+                    rgba(0, 247, 255, 0.25)
+                );
+                border-color: var(--neon-purple);
+                color: var(--neon-purple);
+            }
+
+            .related-grid .tool-card .bookmarklet:hover {
+                background: linear-gradient(
+                    135deg,
+                    var(--neon-purple),
+                    var(--neon-cyan)
+                );
+                box-shadow:
+                    0 0 20px rgba(157, 0, 255, 0.5),
+                    0 0 40px rgba(157, 0, 255, 0.3);
+            }
+
             footer {
                 text-align: center;
                 margin-top: 60px;
@@ -716,6 +770,44 @@
                             >公出單自動填寫</a
                         >
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="related-section">
+            <h2>相關網站</h2>
+            <div class="related-grid">
+                <div class="tool-card">
+                    <h2>範例網站</h2>
+                    <p>
+                        這是一個禁用滑鼠右鍵與選取複製的網站，可以用上面的「解除限制」書籤來測試效果
+                    </p>
+                    <a
+                        class="bookmarklet"
+                        href="https://sfbook.com/scales.htm"
+                        target="_blank"
+                        >Book review of Scales</a
+                    >
+                </div>
+                <div class="tool-card">
+                    <h2>閱讀模式客製化網站</h2>
+                    <p>「閱讀模式」小書籤客製化網站</p>
+                    <a
+                        class="bookmarklet"
+                        href="https://ejucovy.github.io/readability/"
+                        target="_blank"
+                        >Readability</a
+                    >
+                </div>
+                <div class="tool-card">
+                    <h2>另一個閱讀模式網站</h2>
+                    <p>利用連外網站服務轉檔的小書籤網站</p>
+                    <a
+                        class="bookmarklet"
+                        href="https://clearthis.page/"
+                        target="_blank"
+                        >Clear This Page</a
+                    >
                 </div>
             </div>
         </div>
