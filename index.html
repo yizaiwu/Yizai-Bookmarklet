@@ -219,6 +219,35 @@
             >網頁轉Markdown</a
         >
 
+        <!-- 閱讀模式 -->
+        <h2>閱讀模式</h2>
+        <p>一鍵切換至舒適的閱讀模式，移除廣告與干擾元素。</p>
+        <a
+            class="bookmarklet"
+            href="javascript:(function(){readConvertLinksToFootnotes=false;readStyle='style-apertura';readSize='size-large';readMargin='margin-medium';_readability_script=document.createElement('script');_readability_script.type='text/javascript';_readability_script.src='https://ejucovy.github.io/readability/js/readability.js?x=%27+(Math.random());document.documentElement.appendChild(_readability_script);_readability_css=document.createElement(%27link%27);_readability_css.rel=%27stylesheet%27;_readability_css.href=%27https://ejucovy.github.io/readability/css/readability.css?1%27;_readability_css.type=%27text/css%27;_readability_css.media=%27all%27;document.documentElement.appendChild(_readability_css);_readability_print_css=document.createElement(%27link%27);_readability_print_css.rel=%27stylesheet%27;_readability_print_css.href=%27https://ejucovy.github.io/readability/css/readability-print.css%27;_readability_print_css.media=%27print%27;_readability_print_css.type=%27text/css%27;document.getElementsByTagName(%27head%27)[0].appendChild(_readability_print_css);})();"
+            >閱讀模式</a
+        >
+
+        <!-- 閱讀模式引用網站 -->
+        <h2>閱讀模式客製化網站</h2>
+        <p>「閱讀模式」小書籤(Bookmarklet)客製化網站：</p>
+        <p>
+            <a href="https://ejucovy.github.io/readability/" target="_blank"
+                >Readability - An Arc90 Lab Experiment</a
+            >
+        </p>
+        <p></p>
+        <p></p>
+
+        <!-- 引用來源 -->
+        <h2>引用來源</h2>
+        <p>顯示網頁引用來源資訊，方便複製引用。</p>
+        <a
+            class="bookmarklet"
+            href="javascript:(function(){var%20d=document;var%20s=d.createElement('div');s.style.cssText='position:fixed;top:10px;right:10px;background:#fff;border:1px%20solid%20#ccc;padding:15px;z-index:9999;max-width:300px;box-shadow:0%202px%2010px%20rgba(0,0,0,0.2);';var%20title=d.title||'No%20title';var%20url=d.location.href;var%20meta=d.querySelector('meta[name=&quot;author&quot;]');var%20author=meta?meta.getAttribute('content'):'';var%20date=d.querySelector('meta[property=&quot;article:published_time&quot;]');var%20pubDate=date?date.getAttribute('content'):'';var%20cite=d.querySelector('cite')?d.querySelector('cite').innerText:url;var%20html='<h3%20style=&quot;margin:0%200%2010px;font-size:16px;&quot;>引用來源</h3>';html+='<p%20style=&quot;margin:5px%200;&quot;><strong>標題：</strong>'+title+'</p>';html+='<p%20style=&quot;margin:5px%200;&quot;><strong>網址：</strong><a%20href=&quot;'+url+'&quot;%20target=&quot;_blank&quot;>'+url.substring(0,50)+'...</a></p>';if(author)html+='<p%20style=&quot;margin:5px%200;&quot;><strong>作者：</strong>'+author+'</p>';if(pubDate)html+='<p%20style=&quot;margin:5px%200;&quot;><strong>發布日期：</strong>'+pubDate.substring(0,10)+'</p>';var%20citeText='「'+title+'」';if(author)citeText+=' 作者：'+author;if(pubDate)citeText+=' ('+pubDate.substring(0,10)+')';citeText+=' '+url;html+='<button%20id=&quot;cite-copy-btn&quot;%20style=&quot;margin-top:10px;margin-right:5px;padding:5px%2010px;background:#007bff;color:white;border:none;cursor:pointer;&quot;>複製</button>';html+='<button%20onclick=&quot;this.parentElement.remove()&quot;%20style=&quot;margin-top:10px;padding:5px%2010px;&quot;>關閉</button>';s.innerHTML=html;d.body.appendChild(s);d.getElementById('cite-copy-btn').addEventListener('click',function(){navigator.clipboard.writeText(citeText).then(function(){var%20btn=d.getElementById('cite-copy-btn');btn.textContent='已複製！';setTimeout(function(){btn.textContent='複製';},2000);});});})();"
+            >引用來源</a
+        >
+
         <footer></footer>
 
         <script>
