@@ -1,754 +1,701 @@
 <!doctype html>
 <html lang="zh-Hant">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>乙仔書籤小工具收集網</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap"
-            rel="stylesheet"
-        />
-        <style>
-            :root {
-                --neon-cyan: #00f7ff;
-                --neon-magenta: #ff00ff;
-                --neon-purple: #9d00ff;
-                --neon-green: #00ff88;
-                --bg-dark: #0a0a1a;
-                --bg-card: rgba(20, 20, 40, 0.6);
-                --glow-cyan:
-                    0 0 20px rgba(0, 247, 255, 0.5),
-                    0 0 40px rgba(0, 247, 255, 0.3);
-                --glow-magenta:
-                    0 0 20px rgba(255, 0, 255, 0.5),
-                    0 0 40px rgba(255, 0, 255, 0.3);
-            }
 
-            [data-theme="light"] {
-                --bg-dark: #f0f5ff;
-                --bg-card: rgba(255, 255, 255, 0.7);
-                --neon-cyan: #0088aa;
-                --neon-magenta: #cc00cc;
-                --neon-purple: #6600cc;
-                --neon-green: #00aa55;
-            }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>乙仔書籤小工具收集網</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+TC:wght@300;400;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --neon-cyan: #00f7ff;
+            --neon-magenta: #ff00ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff88;
+            --bg-dark: #0a0a1a;
+            --bg-card: rgba(20, 20, 40, 0.6);
+            --glow-cyan:
+                0 0 20px rgba(0, 247, 255, 0.5),
+                0 0 40px rgba(0, 247, 255, 0.3);
+            --glow-magenta:
+                0 0 20px rgba(255, 0, 255, 0.5),
+                0 0 40px rgba(255, 0, 255, 0.3);
+        }
 
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+        [data-theme="light"] {
+            --bg-dark: #f0f5ff;
+            --bg-card: rgba(255, 255, 255, 0.7);
+            --neon-cyan: #0088aa;
+            --neon-magenta: #cc00cc;
+            --neon-purple: #6600cc;
+            --neon-green: #00aa55;
+        }
 
-            body {
-                font-family: "Noto Sans TC", sans-serif;
-                min-height: 100vh;
-                background:
-                    radial-gradient(
-                        ellipse at 20% 20%,
-                        rgba(157, 0, 255, 0.2) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        ellipse at 80% 80%,
-                        rgba(0, 247, 255, 0.15) 0%,
-                        transparent 50%
-                    ),
-                    linear-gradient(
-                        180deg,
-                        #0a0a1a 0%,
-                        #12122a 50%,
-                        #0a0a1a 100%
-                    );
-                color: #fff;
-                padding: 40px 20px;
-                overflow-x: hidden;
-                transition: background 0.3s ease;
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            [data-theme="light"] body {
-                background:
-                    radial-gradient(
-                        ellipse at 20% 20%,
-                        rgba(157, 0, 255, 0.15) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        ellipse at 80% 80%,
-                        rgba(0, 247, 255, 0.1) 0%,
-                        transparent 50%
-                    ),
-                    linear-gradient(
-                        180deg,
-                        #e8f0ff 0%,
-                        #f5f8ff 50%,
-                        #e8f0ff 100%
-                    );
-            }
+        body {
+            font-family: "Noto Sans TC", sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 20% 20%,
+                    rgba(157, 0, 255, 0.2) 0%,
+                    transparent 50%),
+                radial-gradient(ellipse at 80% 80%,
+                    rgba(0, 247, 255, 0.15) 0%,
+                    transparent 50%),
+                linear-gradient(180deg,
+                    #0a0a1a 0%,
+                    #12122a 50%,
+                    #0a0a1a 100%);
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
 
-            body::before {
-                content: "";
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image:
-                    linear-gradient(
-                        rgba(0, 247, 255, 0.05) 1px,
-                        transparent 1px
-                    ),
-                    linear-gradient(
-                        90deg,
-                        rgba(0, 247, 255, 0.05) 1px,
-                        transparent 1px
-                    );
-                background-size: 50px 50px;
-                pointer-events: none;
-                z-index: -1;
-            }
+        [data-theme="light"] body {
+            background:
+                radial-gradient(ellipse at 20% 20%,
+                    rgba(157, 0, 255, 0.15) 0%,
+                    transparent 50%),
+                radial-gradient(ellipse at 80% 80%,
+                    rgba(0, 247, 255, 0.1) 0%,
+                    transparent 50%),
+                linear-gradient(180deg,
+                    #e8f0ff 0%,
+                    #f5f8ff 50%,
+                    #e8f0ff 100%);
+        }
 
-            .theme-toggle {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 10px 20px;
-                background: linear-gradient(
-                    135deg,
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 247, 255, 0.05) 1px,
+                    transparent 1px),
+                linear-gradient(90deg,
+                    rgba(0, 247, 255, 0.05) 1px,
+                    transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg,
                     var(--neon-cyan),
-                    var(--neon-purple)
-                );
-                border: none;
-                border-radius: 25px;
-                color: #000;
-                font-weight: 700;
-                font-size: 14px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                font-family: "Orbitron", sans-serif;
-                z-index: 1000;
-                box-shadow: 0 0 15px rgba(0, 247, 255, 0.4);
+                    var(--neon-purple));
+            border: none;
+            border-radius: 25px;
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: "Orbitron", sans-serif;
+            z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.4);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.6);
+        }
+
+        h1 {
+            font-family: "Orbitron", sans-serif;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg,
+                    var(--neon-cyan),
+                    var(--neon-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 4px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(0, 247, 255, 0.8));
             }
 
-            .theme-toggle:hover {
-                transform: scale(1.1);
-                box-shadow: 0 0 25px rgba(0, 247, 255, 0.6);
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        [data-theme="light"] .subtitle {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
             }
 
             h1 {
-                font-family: "Orbitron", sans-serif;
-                font-size: 2.5em;
-                text-align: center;
-                margin-bottom: 10px;
-                background: linear-gradient(
-                    90deg,
-                    var(--neon-cyan),
-                    var(--neon-magenta)
-                );
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                letter-spacing: 4px;
-                animation: titleGlow 3s ease-in-out infinite alternate;
+                font-size: 1.8em;
             }
+        }
 
-            @keyframes titleGlow {
-                0% {
-                    filter: drop-shadow(0 0 10px rgba(0, 247, 255, 0.8));
-                }
-                100% {
-                    filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
-                }
-            }
+        .tool-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
 
-            .subtitle {
-                text-align: center;
-                color: rgba(255, 255, 255, 0.7);
-                font-size: 1em;
-                margin-bottom: 40px;
-                letter-spacing: 2px;
-            }
-
-            [data-theme="light"] .subtitle {
-                color: rgba(0, 0, 0, 0.7);
-            }
-
-            .grid-container {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-
-            @media (max-width: 900px) {
-                .grid-container {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
-            @media (max-width: 600px) {
-                .grid-container {
-                    grid-template-columns: 1fr;
-                }
-                h1 {
-                    font-size: 1.8em;
-                }
-            }
-
-            .tool-card {
-                background: var(--bg-card);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(0, 247, 255, 0.3);
-                border-radius: 16px;
-                padding: 25px 20px;
-                text-align: center;
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-                animation: fadeInUp 0.6s ease-out forwards;
-                opacity: 0;
-            }
-
-            .tool-card::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(
-                    90deg,
+        .tool-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
                     transparent,
                     rgba(0, 247, 255, 0.15),
-                    transparent
-                );
-                transition: left 0.5s;
+                    transparent);
+            transition: left 0.5s;
+        }
+
+        .tool-card:hover::before {
+            left: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .tool-card:nth-child(3n + 2):hover {
+            border-color: var(--neon-magenta);
+            box-shadow: var(--glow-magenta);
+        }
+
+        .tool-card:nth-child(3n):hover {
+            border-color: var(--neon-green);
+            box-shadow:
+                0 0 20px rgba(0, 255, 136, 0.5),
+                0 0 40px rgba(0, 255, 136, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
 
-            .tool-card:hover::before {
-                left: 100%;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            .tool-card:hover {
-                transform: translateY(-5px);
-                border-color: var(--neon-cyan);
-                box-shadow: var(--glow-cyan);
-            }
+        .tool-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
 
-            .tool-card:nth-child(3n + 2):hover {
-                border-color: var(--neon-magenta);
-                box-shadow: var(--glow-magenta);
-            }
+        .tool-card:nth-child(2) {
+            animation-delay: 0.15s;
+        }
 
-            .tool-card:nth-child(3n):hover {
-                border-color: var(--neon-green);
-                box-shadow:
-                    0 0 20px rgba(0, 255, 136, 0.5),
-                    0 0 40px rgba(0, 255, 136, 0.3);
-            }
+        .tool-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
 
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
+        .tool-card:nth-child(4) {
+            animation-delay: 0.25s;
+        }
 
-            .tool-card:nth-child(1) {
-                animation-delay: 0.1s;
-            }
-            .tool-card:nth-child(2) {
-                animation-delay: 0.15s;
-            }
-            .tool-card:nth-child(3) {
-                animation-delay: 0.2s;
-            }
-            .tool-card:nth-child(4) {
-                animation-delay: 0.25s;
-            }
-            .tool-card:nth-child(5) {
-                animation-delay: 0.3s;
-            }
-            .tool-card:nth-child(6) {
-                animation-delay: 0.35s;
-            }
-            .tool-card:nth-child(7) {
-                animation-delay: 0.4s;
-            }
-            .tool-card:nth-child(8) {
-                animation-delay: 0.45s;
-            }
-            .tool-card:nth-child(9) {
-                animation-delay: 0.5s;
-            }
-            .tool-card:nth-child(10) {
-                animation-delay: 0.55s;
-            }
-            .tool-card:nth-child(11) {
-                animation-delay: 0.6s;
-            }
-            .tool-card:nth-child(12) {
-                animation-delay: 0.65s;
-            }
-            .tool-card:nth-child(13) {
-                animation-delay: 0.7s;
-            }
-            .tool-card:nth-child(14) {
-                animation-delay: 0.75s;
-            }
-            .tool-card:nth-child(15) {
-                animation-delay: 0.8s;
-            }
+        .tool-card:nth-child(5) {
+            animation-delay: 0.3s;
+        }
 
-            .tool-card h2 {
-                font-family: "Orbitron", sans-serif;
-                font-size: 1em;
-                color: var(--neon-cyan);
-                margin-bottom: 10px;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
+        .tool-card:nth-child(6) {
+            animation-delay: 0.35s;
+        }
 
-            .tool-card:nth-child(3n + 2) h2 {
-                color: var(--neon-magenta);
-            }
-            .tool-card:nth-child(3n) h2 {
-                color: var(--neon-green);
-            }
+        .tool-card:nth-child(7) {
+            animation-delay: 0.4s;
+        }
 
-            .tool-card p {
-                font-size: 0.85em;
-                color: rgba(255, 255, 255, 0.7);
-                margin-bottom: 15px;
-                line-height: 1.5;
-            }
+        .tool-card:nth-child(8) {
+            animation-delay: 0.45s;
+        }
 
-            [data-theme="light"] .tool-card p {
-                color: rgba(0, 0, 0, 0.7);
-            }
+        .tool-card:nth-child(9) {
+            animation-delay: 0.5s;
+        }
 
-            .bcm-tag {
-                display: inline-block;
-                padding: 3px 10px;
-                font-size: 10px;
-                font-weight: bold;
-                border-radius: 12px;
-                margin-bottom: 8px;
-                font-family: "Orbitron", sans-serif;
-            }
+        .tool-card:nth-child(10) {
+            animation-delay: 0.55s;
+        }
 
-            .bcm-02 {
-                background: rgba(0, 247, 255, 0.2);
-                color: var(--neon-cyan);
-                border: 1px solid var(--neon-cyan);
-            }
-            .bcm-03 {
-                background: rgba(255, 0, 255, 0.2);
-                color: var(--neon-magenta);
-                border: 1px solid var(--neon-magenta);
-            }
-            .bcm-04 {
-                background: rgba(0, 255, 136, 0.2);
-                color: var(--neon-green);
-                border: 1px solid var(--neon-green);
-            }
+        .tool-card:nth-child(11) {
+            animation-delay: 0.6s;
+        }
 
-            .bookmarklet {
-                display: inline-block;
-                padding: 12px 24px;
-                background: linear-gradient(
-                    135deg,
+        .tool-card:nth-child(12) {
+            animation-delay: 0.65s;
+        }
+
+        .tool-card:nth-child(13) {
+            animation-delay: 0.7s;
+        }
+
+        .tool-card:nth-child(14) {
+            animation-delay: 0.75s;
+        }
+
+        .tool-card:nth-child(15) {
+            animation-delay: 0.8s;
+        }
+
+        .tool-card h2 {
+            font-family: "Orbitron", sans-serif;
+            font-size: 1em;
+            color: var(--neon-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tool-card:nth-child(3n + 2) h2 {
+            color: var(--neon-magenta);
+        }
+
+        .tool-card:nth-child(3n) h2 {
+            color: var(--neon-green);
+        }
+
+        .tool-card p {
+            font-size: 0.85em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        [data-theme="light"] .tool-card p {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .bcm-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-family: "Orbitron", sans-serif;
+        }
+
+        .bcm-02 {
+            background: rgba(0, 247, 255, 0.2);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+        }
+
+        .bcm-03 {
+            background: rgba(255, 0, 255, 0.2);
+            color: var(--neon-magenta);
+            border: 1px solid var(--neon-magenta);
+        }
+
+        .bcm-04 {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+        }
+
+        .bookmarklet {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg,
                     rgba(0, 247, 255, 0.25),
-                    rgba(157, 0, 255, 0.25)
-                );
-                border: 1px solid var(--neon-cyan);
-                color: var(--neon-cyan);
-                font-size: 13px;
-                font-weight: 700;
-                text-decoration: none;
-                border-radius: 8px;
-                cursor: grab;
-                transition: all 0.3s ease;
-                font-family: "Orbitron", sans-serif;
-                letter-spacing: 1px;
-            }
+                    rgba(157, 0, 255, 0.25));
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            font-family: "Orbitron", sans-serif;
+            letter-spacing: 1px;
+        }
 
-            .tool-card:nth-child(3n + 2) .bookmarklet {
-                border-color: var(--neon-magenta);
-                color: var(--neon-magenta);
-                background: linear-gradient(
-                    135deg,
+        .tool-card:nth-child(3n + 2) .bookmarklet {
+            border-color: var(--neon-magenta);
+            color: var(--neon-magenta);
+            background: linear-gradient(135deg,
                     rgba(255, 0, 255, 0.25),
-                    rgba(0, 247, 255, 0.25)
-                );
-            }
+                    rgba(0, 247, 255, 0.25));
+        }
 
-            .tool-card:nth-child(3n) .bookmarklet {
-                border-color: var(--neon-green);
-                color: var(--neon-green);
-                background: linear-gradient(
-                    135deg,
+        .tool-card:nth-child(3n) .bookmarklet {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            background: linear-gradient(135deg,
                     rgba(0, 255, 136, 0.25),
-                    rgba(0, 247, 255, 0.25)
-                );
-            }
+                    rgba(0, 247, 255, 0.25));
+        }
 
-            .bookmarklet:hover {
-                background: linear-gradient(
-                    135deg,
+        .bookmarklet:hover {
+            background: linear-gradient(135deg,
                     var(--neon-cyan),
-                    var(--neon-purple)
-                );
-                color: #000;
-                box-shadow: var(--glow-cyan);
-                transform: scale(1.05);
-            }
+                    var(--neon-purple));
+            color: #000;
+            box-shadow: var(--glow-cyan);
+            transform: scale(1.05);
+        }
 
-            .tool-card:nth-child(3n + 2) .bookmarklet:hover {
-                background: linear-gradient(
-                    135deg,
+        .tool-card:nth-child(3n + 2) .bookmarklet:hover {
+            background: linear-gradient(135deg,
                     var(--neon-magenta),
-                    var(--neon-purple)
-                );
-                box-shadow: var(--glow-magenta);
-            }
+                    var(--neon-purple));
+            box-shadow: var(--glow-magenta);
+        }
 
-            .tool-card:nth-child(3n) .bookmarklet:hover {
-                background: linear-gradient(
-                    135deg,
+        .tool-card:nth-child(3n) .bookmarklet:hover {
+            background: linear-gradient(135deg,
                     var(--neon-green),
-                    var(--neon-cyan)
-                );
-                box-shadow:
-                    0 0 20px rgba(0, 255, 136, 0.5),
-                    0 0 40px rgba(0, 255, 136, 0.3);
-            }
+                    var(--neon-cyan));
+            box-shadow:
+                0 0 20px rgba(0, 255, 136, 0.5),
+                0 0 40px rgba(0, 255, 136, 0.3);
+        }
 
-            .password-section {
-                max-width: 500px;
-                margin: 50px auto;
-                text-align: center;
-                padding: 30px;
-                background: var(--bg-card);
-                backdrop-filter: blur(10px);
-                border: 1px solid rgba(0, 247, 255, 0.3);
-                border-radius: 16px;
-                animation: fadeInUp 0.6s ease-out forwards;
-            }
+        .password-section {
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 16px;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
 
-            .password-section h2 {
-                font-family: "Orbitron", sans-serif;
-                color: var(--neon-cyan);
-                margin-bottom: 20px;
-                font-size: 1.2em;
-            }
+        .password-section h2 {
+            font-family: "Orbitron", sans-serif;
+            color: var(--neon-cyan);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
 
-            .password-section input {
-                padding: 12px 20px;
-                font-size: 16px;
-                border-radius: 8px;
-                border: 1px solid rgba(0, 247, 255, 0.4);
-                background: rgba(0, 0, 0, 0.3);
-                color: #fff;
-                width: 250px;
-                outline: none;
-                transition: all 0.3s;
-                font-family: "Noto Sans TC", sans-serif;
-            }
+        .password-section input {
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 247, 255, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            width: 250px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: "Noto Sans TC", sans-serif;
+        }
 
-            [data-theme="light"] .password-section input {
-                background: rgba(255, 255, 255, 0.8);
-                color: #000;
-                border-color: rgba(0, 136, 170, 0.4);
-            }
+        [data-theme="light"] .password-section input {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            border-color: rgba(0, 136, 170, 0.4);
+        }
 
-            .password-section input:focus {
-                border-color: var(--neon-cyan);
-                box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
-            }
+        .password-section input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+        }
 
-            .password-section input::placeholder {
-                color: rgba(255, 255, 255, 0.5);
-            }
-            [data-theme="light"] .password-section input::placeholder {
-                color: rgba(0, 0, 0, 0.4);
-            }
+        .password-section input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
 
-            .password-section button {
-                padding: 12px 24px;
-                font-size: 14px;
-                margin-left: 10px;
-                vertical-align: middle;
-                background: linear-gradient(
-                    135deg,
+        [data-theme="light"] .password-section input::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        .password-section button {
+            padding: 12px 24px;
+            font-size: 14px;
+            margin-left: 10px;
+            vertical-align: middle;
+            background: linear-gradient(135deg,
                     var(--neon-cyan),
-                    var(--neon-purple)
-                );
-                border: none;
-                color: #000;
-                font-weight: 700;
-                border-radius: 8px;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-family: "Orbitron", sans-serif;
-            }
+                    var(--neon-purple));
+            border: none;
+            color: #000;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: "Orbitron", sans-serif;
+        }
 
-            .password-section button:hover {
-                transform: scale(1.05);
-                box-shadow: var(--glow-cyan);
-            }
+        .password-section button:hover {
+            transform: scale(1.05);
+            box-shadow: var(--glow-cyan);
+        }
 
-            #hidden-features {
-                display: none;
-            }
+        #hidden-features {
+            display: none;
+        }
 
-            .hidden-section {
-                max-width: 1200px;
-                margin: 50px auto;
-            }
+        .hidden-section {
+            max-width: 1200px;
+            margin: 50px auto;
+        }
 
-            .hidden-section h2 {
-                font-family: "Orbitron", sans-serif;
-                text-align: center;
-                font-size: 1.5em;
-                color: var(--neon-magenta);
-                margin-bottom: 30px;
-                text-shadow: var(--glow-magenta);
-                letter-spacing: 3px;
-            }
+        .hidden-section h2 {
+            font-family: "Orbitron", sans-serif;
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--neon-magenta);
+            margin-bottom: 30px;
+            text-shadow: var(--glow-magenta);
+            letter-spacing: 3px;
+        }
 
-            .related-section {
-                max-width: 1200px;
-                margin: 50px auto;
-            }
+        .related-section {
+            max-width: 1200px;
+            margin: 50px auto;
+        }
 
-            .related-section h2 {
-                font-family: "Orbitron", sans-serif;
-                text-align: center;
-                font-size: 1.5em;
-                color: var(--neon-purple);
-                margin-bottom: 30px;
-                text-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
-                letter-spacing: 3px;
-            }
+        .related-section h2 {
+            font-family: "Orbitron", sans-serif;
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--neon-purple);
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(157, 0, 255, 0.5);
+            letter-spacing: 3px;
+        }
 
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
             .related-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
 
-            @media (max-width: 900px) {
-                .related-grid {
-                    grid-template-columns: repeat(2, 1fr);
-                }
+        @media (max-width: 600px) {
+            .related-grid {
+                grid-template-columns: 1fr;
             }
+        }
 
-            @media (max-width: 600px) {
-                .related-grid {
-                    grid-template-columns: 1fr;
-                }
-            }
-
-            .related-grid .tool-card .bookmarklet {
-                background: linear-gradient(
-                    135deg,
+        .related-grid .tool-card .bookmarklet {
+            background: linear-gradient(135deg,
                     rgba(157, 0, 255, 0.25),
-                    rgba(0, 247, 255, 0.25)
-                );
-                border-color: var(--neon-purple);
-                color: var(--neon-purple);
-            }
+                    rgba(0, 247, 255, 0.25));
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+        }
 
-            .related-grid .tool-card .bookmarklet:hover {
-                background: linear-gradient(
-                    135deg,
+        .related-grid .tool-card .bookmarklet:hover {
+            background: linear-gradient(135deg,
                     var(--neon-purple),
-                    var(--neon-cyan)
-                );
-                box-shadow:
-                    0 0 20px rgba(157, 0, 255, 0.5),
-                    0 0 40px rgba(157, 0, 255, 0.3);
-            }
+                    var(--neon-cyan));
+            box-shadow:
+                0 0 20px rgba(157, 0, 255, 0.5),
+                0 0 40px rgba(157, 0, 255, 0.3);
+        }
 
-            footer {
-                text-align: center;
-                margin-top: 60px;
-                color: rgba(255, 255, 255, 0.4);
-                font-size: 12px;
-            }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
 
-            [data-theme="light"] footer {
-                color: rgba(0, 0, 0, 0.4);
-            }
-        </style>
-    </head>
-    <body>
-        <button class="theme-toggle" id="theme-toggle">🌙 黑暗模式</button>
+        [data-theme="light"] footer {
+            color: rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
 
-        <h1>乙仔書籤小工具收集網</h1>
-        <p class="subtitle">
-            請將下方任一按鈕拖曳至瀏覽器書籤列，點擊即可自動啟用對應功能
-        </p>
+<body>
+    <button class="theme-toggle" id="theme-toggle">🌙 黑暗模式</button>
 
-        <div class="grid-container">
-            <div class="tool-card">
-                <h2>基金理財網不分頁</h2>
-                <p>基金理財網增加選項"不分頁"一次顯示全部基金</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function() { var xpath = &quot;/html/body/div/div[1]/div[1]/div[1]/div/label/select&quot;; var selectElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; if (selectElement) { if (!selectElement.querySelector(&quot;option[value='9999']&quot;)) { var option = document.createElement('option'); option.value = '9999'; option.text = '不分頁'; selectElement.appendChild(option); } selectElement.value = '9999'; if (typeof jQuery !== 'undefined') { jQuery(selectElement).change(); } else { var event = new Event('change', { 'bubbles': true }); selectElement.dispatchEvent(event); } } else { alert('錯誤：找不到下拉選單。'); } })();"
-                    >🔍基金理財網不分頁</a
-                >
-            </div>
+    <h1>乙仔書籤小工具收集網</h1>
+    <p class="subtitle">
+        請將下方任一按鈕拖曳至瀏覽器書籤列，點擊即可自動啟用對應功能
+    </p>
 
-            <div class="tool-card">
-                <h2>文章總結</h2>
-                <p>透過 AI 網頁文章總結和條列式摘要功能</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:void(location.href='https://kagi.com/summarizer/index.html?target_language=&summary=takeaway&url=%27+encodeURIComponent(location.href))"
-                    >📰文章總結</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>解除右鍵限制</h2>
-                <p>解除頁面右鍵與選取複製限制</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:!function(){function t(e){e.stopPropagation(),e.stopImmediatePropagation&&e.stopImmediatePropagation()}document.querySelectorAll('*').forEach(e=>{'none'===window.getComputedStyle(e,null).getPropertyValue('user-select')&&e.style.setProperty('user-select','text','important')}),['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'].forEach(function(e){document.documentElement.addEventListener(e,t,{capture:!0})}),alert('解除限制成功啦！')}();"
-                    >🔓 解鎖限制</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>解除右鍵限制加強版</h2>
-                <p>針對 JS 強制攔截的網站加強破解</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function(){var events=['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'];document.querySelectorAll('*').forEach(function(el){events.forEach(function(ev){el['on'+ev]=null;});el.style&&el.style.setProperty&&el.style.setProperty('user-select','text','important');});events.forEach(function(ev){document.addEventListener(ev,function(e){e.stopPropagation();},true);});document.body.setAttribute('contenteditable','true');alert('解除限制成功啦！可自由複製、右鍵、選取！');})();"
-                    >🔓 解鎖加強版</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>網頁備份</h2>
-                <p>備份網頁或繞過 paywall 觀看內容</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function(){const url=new URL(location.href);url.search='';window.open('https://archive.ph/'+url.toString(),'archiveTab')})();"
-                    >📦網頁備份</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>網頁轉 Markdown</h2>
-                <p>將網頁內容轉換為 Markdown 格式</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function(){if(typeof%20TurndownService==='undefined'){var%20s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/turndown/7.1.2/turndown.min.js';s.onload=i;document.body.appendChild(s)}else{i()}function%20i(){var%20s=window.getSelection();var%20h='';if(s.rangeCount>0){var%20c=document.createElement('div');var%20r=s.getRangeAt(0);c.appendChild(r.cloneContents());h=c.innerHTML}else{var%20a=document.querySelector('article');if(a){h=a.innerHTML}else{alert('No%20selection%20found%20and%20no%20article%20element%20detected');return}}if(!h){alert('No%20content%20found%20to%20convert');return}var%20t=new%20TurndownService({headingStyle:'atx',codeBlockStyle:'fenced',emDelimiter:'*',strongDelimiter:'**'});var%20m=t.turndown(h);var%20d=document.createElement('div');d.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:8px;box-shadow:0%200%2010px%20rgba(0,0,0,0.5);z-index:10000;max-width:80%;max-height:80vh;overflow:auto;';var%20a=document.createElement('textarea');a.value=m;a.style.cssText='width:100%;min-height:200px;margin-bottom:10px;padding:8px;';var%20b=document.createElement('button');b.textContent='Close';b.style.cssText='padding:8px%2016px;background:#f0f0f0;border:none;border-radius:4px;cursor:pointer;';b.onclick=function(){document.body.removeChild(d)};var%20y=document.createElement('button');y.textContent='Copy';y.style.cssText='padding:8px%2016px;background:#007bff;color:white;border:none;border-radius:4px;margin-right:10px;cursor:pointer;';y.onclick=function(){a.select();document.execCommand('copy');y.textContent='Copied!';setTimeout(function(){y.textContent='Copy'},2000)};d.appendChild(a);d.appendChild(y);d.appendChild(b);document.body.appendChild(d)}})();"
-                    >📃網頁轉Markdown</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>閱讀模式</h2>
-                <p>一鍵切換至舒適的閱讀模式</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:!function(){location.href='https://clearthis.page/%3Fu='+window.location.href}();"
-                    >📜閱讀模式</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>引用來源v1</h2>
-                <p>顯示網頁引用來源資訊(含標題、網址、發布日期)</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:%28function%28%29%7Bvar%20d%3Ddocument%3Bvar%20s%3Dd.createElement%28%27div%27%29%3Bs.style.cssText%3D%27position%3Afixed%3Btop%3A10px%3Bright%3A10px%3Bbackground%3A%23fff%3Bborder%3A1px%20solid%20%23ccc%3Bpadding%3A15px%3Bz-index%3A9999%3Bmax-width%3A320px%3Bbox-shadow%3A0%202px%2010px%20rgba%280%2C0%2C0%2C0.2%29%3Bword-break%3Abreak-all%3B%27%3Bvar%20title%3Dd.title%7C%7C%27No%20title%27%3Bvar%20url%3Dd.location.href%3Bvar%20meta%3Dd.querySelector%28%27meta%5Bname%3D%5C%22author%5C%22%5D%27%29%3Bvar%20author%3Dmeta%3Fmeta.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20date%3Dd.querySelector%28%27meta%5Bproperty%3D%5C%22article%3Apublished_time%5C%22%5D%27%29%3Bvar%20pubDate%3Ddate%3Fdate.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20btnId%3D%27cite-copy-btn-%27%2BDate.now%28%29%3Bvar%20html%3D%27%3Ch3%20style%3D%5C%22margin%3A0%200%2010px%3Bfont-size%3A16px%3B%5C%22%3E%E5%BC%95%E7%94%A8%E4%BE%86%E6%BA%90%3C%2Fh3%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E6%A8%99%E9%A1%8C%EF%BC%9A%3C%2Fstrong%3E%27%2Btitle%2B%27%3C%2Fp%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%B6%B2%E5%9D%80%EF%BC%9A%3C%2Fstrong%3E%3Ca%20href%3D%5C%22%27%2Burl%2B%27%5C%22%20target%3D%5C%22_blank%5C%22%3E%27%2Burl%2B%27%3C%2Fa%3E%3C%2Fp%3E%27%3Bif%28author%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E4%BD%9C%E8%80%85%EF%BC%9A%3C%2Fstrong%3E%27%2Bauthor%2B%27%3C%2Fp%3E%27%3Bif%28pubDate%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%3C%2Fstrong%3E%27%2BpubDate.substring%280%2C10%29%2B%27%3C%2Fp%3E%27%3Bvar%20citeText%3D%27%E6%A8%99%E9%A1%8C%EF%BC%9A%27%2Btitle%2B%27%5Cn%E7%B6%B2%E5%9D%80%EF%BC%9A%27%2Burl%3Bif%28author%29citeText%2B%3D%27%5Cn%E4%BD%9C%E8%80%85%EF%BC%9A%27%2Bauthor%3Bif%28pubDate%29citeText%2B%3D%27%5Cn%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%27%2BpubDate.substring%280%2C10%29%3Bhtml%2B%3D%27%3Cbutton%20id%3D%5C%22%27%2BbtnId%2B%27%5C%22%20style%3D%5C%22margin-top%3A10px%3Bmargin-right%3A5px%3Bpadding%3A5px%2010px%3Bbackground%3A%23007bff%3Bcolor%3Awhite%3Bborder%3Anone%3Bcursor%3Apointer%3B%5C%22%3E%E8%A4%87%E8%A3%BD%3C%2Fbutton%3E%27%3Bhtml%2B%3D%27%3Cbutton%20onclick%3D%5C%22this.parentElement.remove%28%29%5C%22%20style%3D%5C%22margin-top%3A10px%3Bpadding%3A5px%2010px%3B%5C%22%3E%E9%97%9C%E9%96%89%3C%2Fbutton%3E%27%3Bs.innerHTML%3Dhtml%3Bd.body.appendChild%28s%29%3Bd.getElementById%28btnId%29.addEventListener%28%27click%27%2Cfunction%28%29%7Bnavigator.clipboard.writeText%28citeText%29.then%28function%28%29%7Bvar%20btn%3Dd.getElementById%28btnId%29%3Bbtn.textContent%3D%27%E5%B7%B2%E8%A4%87%E8%A3%BD%EF%BC%81%27%3BsetTimeout%28function%28%29%7Bbtn.textContent%3D%27%E8%A4%87%E8%A3%BD%27%3B%7D%2C2000%29%3B%7D%29%3B%7D%29%3B%7D%29%28%29%3B"
-                    >📝引用來源v1</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>引用來源v2</h2>
-                <p>顯示網頁引用來源資訊(精簡版)</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:%28function%28%29%7Bvar%20d%3Ddocument%3Bvar%20s%3Dd.createElement%28%27div%27%29%3Bs.style.cssText%3D%27position%3Afixed%3Btop%3A10px%3Bright%3A10px%3Bbackground%3A%23fff%3Bborder%3A1px%20solid%20%23ccc%3Bpadding%3A15px%3Bz-index%3A9999%3Bmax-width%3A300px%3Bbox-shadow%3A0%202px%2010px%20rgba%280%2C0%2C0%2C0.2%29%3B%27%3Bvar%20title%3Dd.title%7C%7C%27No%20title%27%3Bvar%20url%3Dd.location.href%3Bvar%20meta%3Dd.querySelector%28%27meta%5Bname%3D%5C%22author%5C%22%5D%27%29%3Bvar%20author%3Dmeta%3Fmeta.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20date%3Dd.querySelector%28%27meta%5Bproperty%3D%5C%22article%3Apublished_time%5C%22%5D%27%29%3Bvar%20pubDate%3Ddate%3Fdate.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20btnId%3D%27cite-copy-btn-%27%2BDate.now%28%29%3Bvar%20html%3D%27%3Ch3%20style%3D%5C%22margin%3A0%200%2010px%3Bfont-size%3A16px%3B%5C%22%3E%E5%BC%95%E7%94%A8%E4%BE%86%E6%BA%90%3C%2Fh3%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E6%A8%99%E9%A1%8C%EF%BC%9A%3C%2Fstrong%3E%27%2Btitle%2B%27%3C%2Fp%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%B6%B2%E5%9D%80%EF%BC%9A%3C%2Fstrong%3E%3Ca%20href%3D%5C%22%27%2Burl%2B%27%5C%22%20target%3D%5C%22_blank%5C%22%3E%27%2Burl.substring%280%2C50%29%2B%27...%3C%2Fa%3E%3C%2Fp%3E%27%3Bif%28author%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E4%BD%9C%E8%80%85%EF%BC%9A%3C%2Fstrong%3E%27%2Bauthor%2B%27%3C%2Fp%3E%27%3Bif%28pubDate%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%3C%2Fstrong%3E%27%2BpubDate.substring%280%2C10%29%2B%27%3C%2Fp%3E%27%3Bvar%20citeText%3Dtitle%2B%27%5Cn%27%2Burl%3Bhtml%2B%3D%27%3Cbutton%20id%3D%5C%22%27%2BbtnId%2B%27%5C%22%20style%3D%5C%22margin-top%3A10px%3Bmargin-right%3A5px%3Bpadding%3A5px%2010px%3Bbackground%3A%23007bff%3Bcolor%3Awhite%3Bborder%3Anone%3Bcursor%3Apointer%3B%5C%22%3E%E8%A4%87%E8%A3%BD%3C%2Fbutton%3E%27%3Bhtml%2B%3D%27%3Cbutton%20onclick%3D%5C%22this.parentElement.remove%28%29%5C%22%20style%3D%5C%22margin-top%3A10px%3Bpadding%3A5px%2010px%3B%5C%22%3E%E9%97%9C%E9%96%89%3C%2Fbutton%3E%27%3Bs.innerHTML%3Dhtml%3Bd.body.appendChild%28s%29%3Bd.getElementById%28btnId%29.addEventListener%28%27click%27%2Cfunction%28%29%7Bnavigator.clipboard.writeText%28citeText%29.then%28function%28%29%7Bvar%20btn%3Dd.getElementById%28btnId%29%3Bbtn.textContent%3D%27%E5%B7%B2%E8%A4%87%E8%A3%BD%EF%BC%81%27%3BsetTimeout%28function%28%29%7Bbtn.textContent%3D%27%E8%A4%87%E8%A3%BD%27%3B%7D%2C2000%29%3B%7D%29%3B%7D%29%3B%7D%29%28%29%3B"
-                    >📝引用來源v2</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <h2>🔎CopilotSearch</h2>
-                <p>快速使用 Bing Copilot Search 搜尋任何問題。</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function(){var d=document,b=d.body,o=d.createElement('div'),m=d.createElement('div'),i=d.createElement('input'),p=d.createElement('div'),c=d.createElement('button');o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center';m.style.cssText='background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:400px;width:90%25;font-family:sans-serif';p.style.cssText='margin-bottom:15px;font-size:16px;color:#333';c.style.cssText='background:#0078d4;color:#fff;border:none;padding:8px 20px;border-radius:4px;cursor:pointer;font-size:14px';p.textContent='請問您要用 Copilot Search 問什麼問題呢？';i.style.cssText='width:100%25;padding:10px;margin-bottom:20px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-size:14px';c.textContent='確定';b.appendChild(o);m.appendChild(p);m.appendChild(i);m.appendChild(c);o.appendChild(m);i.focus();c.onclick=function(){var q=i.value;if(q){b.removeChild(o);window.open('https://www.bing.com/copilotsearch?q='+encodeURIComponent(q),'_blank');}};o.onclick=function(e){if(e.target===o){b.removeChild(o);}};i.onkeydown=function(e){if(e.key==='Enter'){c.click();}};}());"
-                    >🔎CopilotSearch</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <span class="bcm-tag bcm-02">BCM02</span>
-                <h2>BCM02 自動簽核</h2>
-                <p>BCM02 全流程自動化腳本 V5.2</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%F0%9F%9A%80%20BCM02%20%E5%85%A8%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8B%95%E5%8C%96%E8%85%B3%E6%9C%AC%20V5.2%20(%E8%81%9A%E7%84%A1%E9%87%8D%E8%A9%A6%E4%BF%AE%E6%AD%A3%E7%89%88)%20%E5%95%9F%E5%8B%95...%22)%3Bvar%20r%3Dnew%20Set%3Bconst%20i%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%3Bfunction%20c(e)%7Breturn!(!e%7C%7C!(e.offsetWidth%7C%7Ce.offsetHeight%7C%7Ce.getClientRects().length))%7Dasync%20function%20s(e%2Ct%3D1e4)%7Bfor(var%20l%3DDate.now()%3BDate.now()-l%3Ct%3B)%7Bvar%20a%3Ddocument.evaluate(e%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(c(a))return%20a%3Bawait%20i(500)%7Dreturn%20null%7Dasync%20function%20u(e)%7Bif(e)%7Be.hasAttribute(%22disabled%22)%26%26(e.removeAttribute(%22disabled%22)%2Ce.classList.remove(%22disabled%22)%2Ce.disabled%3D!1%2Cawait%20i(50))%3Btry%7Be.scrollIntoView(%7Bbehavior%3A%22auto%22%2Cblock%3A%22center%22%7D)%7Dcatch(e)%7B%7De.dispatchEvent(new%20MouseEvent(%22mousedown%22%2C%7Bbubbles%3A!0%7D))%2Ce.dispatchEvent(new%20MouseEvent(%22mouseup%22%2C%7Bbubbles%3A!0%7D))%2Ce.click()%2Cawait%20i(500)%7D%7Dfunction%20f()%7Bvar%20e%3DArray.from(document.querySelectorAll('button.close%2C%20.ngdialog-close%2C%20button%5Btitle%3D%22Close%22%5D%2C%20span.ui-icon-closethick%2C%20.ui-dialog-titlebar-close')).filter(e%3D%3Ec(e))%3B0%3Ce.length%3Fe%5Be.length-1%5D.click()%3Adocument.dispatchEvent(new%20KeyboardEvent(%22keydown%22%2C%7BkeyCode%3A27%2Cwhich%3A27%2Ckey%3A%22Escape%22%2Cbubbles%3A!0%7D))%7Dasync%20function%20d(e%2Cl)%7Bconsole.log(%22%20%20%20%5B%E5%A1%AB%E5%AF%AB%5D%20%E8%A8%AD%E5%AE%9A%EF%BC%9A%22%2Be)%3Bvar%20a%2Co%2Ce%3Dfunction(e)%7Bvar%20t%3Ddocument.evaluate(%60%2F%2F*%5Bcontains(text()%2C%20'%24%7Be%7D')%20and%20not(self%3A%3Ascript)%5D%60%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bfor(let%20e%3D0%3Be%3Ct.snapshotLength%3Be%2B%2B)%7Bvar%20a%3Dt.snapshotItem(e)%3Bif(c(a))%7Blet%20t%3Da.parentElement%2Cl%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26t%3Be%2B%2B)%7Bvar%20o%3Dt.querySelectorAll(%22.custom-combobox-toggle%22)%3Bif(0%3Co.length)for(var%20n%20of%20o)if(a.compareDocumentPosition(n)%26Node.DOCUMENT_POSITION_FOLLOWING)%7Bl%3Dn%3Bbreak%7Dif(l)break%3Bt%3Dt.parentElement%7Dif(l)return%20l%7D%7Dreturn%20null%7D(e)%3Bif(e)%7Bawait%20u(e)%3Blet%20t%3Dnull%3Bfor(let%20e%3D0%3Be%3C10%3Be%2B%2B)%7Bfor(a%20of%20document.querySelectorAll(%22ul.ui-autocomplete%22))if(c(a))%7Bt%3Da%3Bbreak%7Dif(t)break%3Bawait%20i(100)%7Dt%3F((o%3Dt.querySelectorAll(%22li.ui-menu-item%20a%2C%20li.ui-menu-item%22)).length%3El%3Fawait%20u(o%5Bl%5D)%3Aawait%20u(e)%2Cawait%20i(200))%3Aawait%20u(e)%7D%7Dtry%7Bfor(%3B%3B)%7Bconsole.log(%22%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%22)%2Cconsole.log(%22%E5%A4%96%E5%B1%A4%E8%BF%B4%E5%9C%88%3A%20%E6%90%9C%E5%B0%8B%20BCM02-1%20%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8...%22)%2Cawait%20i(1e3)%3Blet%20l%3D!1%3Bvar%20e%3Ddocument.evaluate(%22%2F%2Fth%5Bcontains(text()%2C%20'%E6%9C%AC%E6%9C%88%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8')%5D%20%7C%20%2F%2Ftd%5Bcontains(text()%2C%20'%E6%9C%AC%E6%9C%88%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8')%5D%22%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bif(0%3Ce.snapshotLength)%7Bvar%20a%3De.snapshotItem(0)%2Co%3Da.closest(%22table%22)%2Cn%3Da.cellIndex%3Blet%20t%3Do.querySelectorAll(%22tbody%20tr%22)%3B0%3D%3D%3Dt.length%26%26(t%3Do.querySelectorAll(%22tr%22))%3Bfor(let%20e%3D0%3Be%3Ct.length%3Be%2B%2B)%7Bvar%20w%3Dt%5Be%5D.cells%3Bif(!(w.length%3C%3Dn))%7Bvar%20g%3DparseInt(w%5Bn%5D.innerText.trim()%2C10)%3Bif(!isNaN(g)%26%260!%3D%3Dg)%7Bvar%20h%3Dw%5Bn%5D.querySelector(%22a%22)%3Bif(h)%7Bconsole.log(%60%20%20%20%E2%9C%85%20%E7%99%BC%E7%8F%BE%E5%BE%85%E8%99%95%E7%90%86%E9%A0%85%E7%9B%AE%20(%E6%95%B8%E9%87%8F%3A%20%24%7Bg%7D)%60)%2Cawait%20u(h)%2Cl%3D!0%3Bbreak%7D%7D%7D%7D%7Delse%20console.warn(%22%20%20%20%E2%9A%A0%EF%B8%8F%20%E6%89%BE%E4%B8%8D%E5%88%B0%E5%84%80%E8%A1%A8%E6%9D%BF%E8%A1%A8%E6%A0%BC%20(%E5%8F%AF%E8%83%BD%E5%B7%B2%E9%80%B2%E5%85%A5%E5%85%A7%E5%B1%A4%E6%88%96%E9%A0%81%E9%9D%A2%E6%9C%AA%E8%BC%89%E5%85%A5)%22)%3Bif(!l)%7Bconsole.log(%22%F0%9F%8E%89%20%E4%BB%BB%E5%8B%99%E5%AE%8C%E6%88%90%EF%BC%9A%E5%B7%B2%E7%84%A1%E5%BE%85%E8%99%95%E7%90%86%E9%A0%85%E7%9B%AE%E3%80%82%22)%2Calert(%22%E4%B9%99%E4%BB%94%E5%8A%AA%E5%8A%9B%E5%81%9A%E5%AE%8C%E5%8D%8A%E5%A5%97%E7%9A%84%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%A0%B1%E8%A1%A8%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22)%3Bbreak%7Dfor(await%20i(3e3)%3B%3B)%7Bconsole.log(%22-----------------------------------------%22)%2Cconsole.log(%22%E5%85%A7%E5%B1%A4%E8%BF%B4%E5%9C%88%3A%20%E6%8E%83%E6%8F%8F%20BCM02-2%20%E5%AE%A2%E6%88%B6%E5%88%97%E8%A1%A8...%22)%3Bvar%20b%3Dawait%20s(%22%2F%2Ftable%5Bcontains(.%2C%20'%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D')%5D%22%2C5e3)%3Bif(!b)%7Bconsole.log(%22%20%20%20%E2%84%B9%EF%B8%8F%20%E5%AE%A2%E6%88%B6%E5%88%97%E8%A1%A8%E5%B7%B2%E9%97%9C%E9%96%89%E6%88%96%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%EF%BC%8C%E5%9B%9E%E5%88%B0%E5%A4%96%E5%B1%A4%E3%80%82%22)%3Bbreak%7Dlet%20t%3D-1%3Bvar%20m%2Cv%3Db.querySelectorAll(%22th%2C%20thead%20td%2C%20tr.grid-header%20td%22)%3Bfor(let%20e%3D0%3Be%3Cv.length%3Be%2B%2B)if(v%5Be%5D.innerText.includes(%22%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D%22))%7Bt%3De%3Bbreak%7D-1%3D%3D%3Dt%26%26(t%3D3)%3Blet%20e%3Db.querySelectorAll(%22tbody%20tr%22)%3Bif(0%3D%3D%3De.length)%7Bvar%20E%2Cy%3Db.querySelectorAll(%22tr%22)%2Cp%3D%5B%5D%3Bfor(E%20of%20y)0%3D%3D%3DE.querySelectorAll(%22th%22).length%26%26p.push(E)%3Be%3Dp%7Dlet%20l%3Dnull%2Ca%3D%22%22%3Bfor(m%20of%20e)if(!(m.cells.length%3C%3Dt))%7Bvar%20S%3Dm.cells%5Bt%5D.innerText.trim()%3Bif(!r.has(S)%26%260%3CS.length)%7Bl%3Dm%2Ca%3DS%3Bbreak%7D%7Dif(!l)%7Bconsole.log(%22%20%20%20%E2%9C%85%20%E6%AD%A4%E5%88%86%E9%A1%9E%E5%AE%A2%E6%88%B6%E5%B7%B2%E5%85%A8%E9%83%A8%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%E3%80%82%22)%3Bbreak%7Dconsole.log(%22%20%20%20-%3E%20%E9%8E%96%E5%AE%9A%E5%AE%A2%E6%88%B6%EF%BC%9A%22%2Ba)%2Cawait%20u(l.cells%5Bt%5D.querySelector(%22a%22)%7C%7Cl.cells%5Bt%5D)%2Cconsole.log(%22%20%20%20-%3E%20%E7%AD%89%E5%BE%85%E5%AE%A2%E6%88%B6%E9%A0%81%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%20(%E7%B4%84%205%20%E7%A7%92)...%22)%2Cawait%20i(5e3)%2Cconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%203%5D%20%E5%B0%8B%E6%89%BE%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%E4%B8%A6%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%22)%3Blet%20o%3Ddocument.querySelector(%22a%5Bng-click*%3D'toCHSAM120'%5D%22)%2Cn%3D(o%3Do%7C%7Cawait%20s(%22%2F%2Fa%5Bcontains(text()%2C%20'%E6%9B%B4%E5%A4%9A')%5D%22%2C3e3)%2C!1)%3Bif(o)for(let%20e%3D1%3Be%3C%3D3%3Be%2B%2B)try%7Bif(console.log(%60%20%20%20%20%20%20-%3E%20%E7%AC%AC%20%24%7Be%7D%20%E6%AC%A1%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%60)%2Co.focus()%2Co.dispatchEvent(new%20Event(%22focus%22))%2Cawait%20i(500)%2Co.click()%2Cawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C2e3))%7Bconsole.log(%22%20%20%20%20%20%20-%3E%20%E2%9C%85%20%E6%88%90%E5%8A%9F%E6%89%93%E9%96%8B%E4%BA%8C%E5%8B%95%E7%B4%80%E9%8C%84%E8%A6%96%E7%AA%97%EF%BC%81%22)%2Cn%3D!0%3Bbreak%7Dconsole.warn(%22%20%20%20%20%20%20%E2%9A%A0%EF%B8%8F%20%E9%BB%9E%E6%93%8A%E5%BE%8C%E6%9C%AA%E7%99%BC%E7%8F%BE%20%5B%E6%96%B0%E5%A2%9E%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E5%8F%AF%E8%83%BD%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%E4%B8%AD...%22)%2Cawait%20i(2e3)%7Dcatch(e)%7Bconsole.error(%60%20%20%20%20%20%20%E2%9D%8C%20%E9%BB%9E%E6%93%8A%E7%99%BC%E7%94%9F%E9%8C%AF%E8%AA%A4%3A%20%24%7Be.message%7D%EF%BC%8C%E7%AD%89%E5%BE%85%E9%87%8D%E8%A9%A6...%60)%2Cawait%20i(2e3)%7Delse%20console.error(%22%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E8%B7%B3%E9%81%8E%E3%80%82%22)%3Bif(n)%7Bconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%204%5D%20%E9%BB%9E%E9%81%B8%20%5B%E6%96%B0%E5%A2%9E%5D...%22)%3Bvar%20k%3Dawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C3e3)%3Bif(k)if(await%20u(k)%2Cconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%205%5D%20%E5%B0%8B%E6%89%BE%E8%A1%A8%E5%96%AE...%22)%2Cawait%20s(%22%2F%2F*%5Bcontains(text()%2C%20'%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90')%5D%22%2C5e3))%7Bawait%20i(1e3)%3Btry%7Bawait%20d(%22%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E7%AE%A1%E9%81%93%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E7%B5%90%E6%9E%9C%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E8%8A%B1%E8%B2%BB%E6%99%82%E9%96%93%22%2C1)%2CA%3DD%3DT%3Dvoid%200%3Bvar%20A%2CT%3D%22%E5%AE%9A%E6%9C%9F%E6%AA%A2%E8%A6%96%E6%B7%A8%E5%80%BC%E7%AE%A1%E7%90%86%E6%95%88%E7%9B%8A%22%3Bif(console.log(%22%20%20%20%5B%E5%A1%AB%E5%AF%AB%5D%20%E7%A7%BB%E5%8B%95%E9%A0%85%E7%9B%AE%EF%BC%9A%22%2BT)%2CT%3Ddocument.evaluate(%60%2F%2Foption%5Bcontains(text()%2C%20'%24%7BT%7D')%5D%60%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue)%7BT.selected%3D!0%2CT.parentElement.dispatchEvent(new%20Event(%22change%22%2C%7Bbubbles%3A!0%7D))%3Btry%7Bangular.element(T.parentElement).triggerHandler(%22change%22)%7Dcatch(e)%7B%7Dawait%20i(300)%3Blet%20t%3DT.parentElement.parentElement%2Cl%3Dnull%3Bfor(let%20e%3D0%3Be%3C6%26%26t%3Be%2B%2B)%7Bfor(A%20of%20t.querySelectorAll(%22button%2C%20a.btn%2C%20div.btn%22))%7Bvar%20D%3DA.innerText.trim()%3Bif((%22%3E%22%3D%3D%3DD%7C%7C%22%E2%80%BA%22%3D%3D%3DD%7C%7CA.innerHTML.includes(%22ui-icon%22)%7C%7CA.innerHTML.includes(%22glyphicon%22))%26%26c(A))%7Bl%3DA%3Bbreak%7D%7Dif(l)break%3Bt%3Dt.parentElement%7Dl%26%26await%20u(l)%7Dawait%200%3Bvar%20x%3Dawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E7%A2%BA%E5%AE%9A')%5D%22%2C3e3)%3Bif(!x)throw%20new%20Error(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E7%A2%BA%E5%AE%9A%E6%8C%89%E9%88%95%22)%3Bawait%20u(x)%2Cconsole.log(%22%20%20%20%20%20%20%5B%E6%88%90%E5%8A%9F%5D%20%E5%B7%B2%E9%BB%9E%E6%93%8A%E7%A2%BA%E5%AE%9A%EF%BC%81%22)%2Cr.add(a)%2Cawait%20i(2e3)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%20(%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84)%22)%2Cf()%2Cawait%20i(1e3)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%20(%E5%AE%A2%E6%88%B6%E9%A0%81)%22)%2Cf()%2Cawait%20i(1500)%7Dcatch(e)%7Bconsole.error(%22%20%20%20%20%20%20%E2%9D%8C%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB%E5%A4%B1%E6%95%97%3A%22%2Ce)%2Cr.add(a)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(1e3)%7D%7Delse%20console.error(%22%20%20%20%20%20%20%E2%9D%8C%20%E8%A1%A8%E5%96%AE%E6%9C%AA%E9%96%8B%E5%95%9F%22)%2Cr.add(a)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(1e3)%3Belse%20r.add(a)%2Cf()%2Cawait%20i(1e3)%7Delse%20console.error(%22%20%20%20%E2%9D%8C%20%E5%A4%9A%E6%AC%A1%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A%E5%A4%B1%E6%95%97%EF%BC%8C%E8%B7%B3%E9%81%8E%E6%AD%A4%E5%AE%A2%E6%88%B6%E3%80%82%22)%2Cr.add(a)%2Cf()%2Cawait%20i(1e3)%7Dconsole.log(%22%E5%85%A7%E5%B1%A4%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%EF%BC%8C%E9%97%9C%E9%96%89%20BCM02-2%20%E5%88%97%E8%A1%A8...%22)%2Cf()%2Cawait%20i(2e3)%7D%7Dcatch(e)%7Bconsole.error(%22%E2%9D%8C%20%E7%B3%BB%E7%B5%B1%E9%8C%AF%E8%AA%A4%3A%22%2Ce)%2Calert(%22%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E4%B8%AD%E6%96%B7%EF%BC%9A%22%2Be.message)%7D%7D()%7D)();"
-                    >BCM02自動簽核</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <span class="bcm-tag bcm-03">BCM03</span>
-                <h2>BCM03 自動簽核</h2>
-                <p>BCM03 全流程自動化腳本 第五版</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%3E%3E%3E%20%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E8%85%B3%E6%9C%AC%E5%95%9F%E5%8B%95%20(ngModel%E4%BF%AE%E8%A3%9C%2B%E6%A5%B5%E9%80%9F%E5%84%AA%E5%8C%96%E7%89%88)...%22)%3Bconst%20a%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%2Ci%3De%3D%3E!(!e%7C%7C!(0%3Ce.offsetWidth%7C%7C0%3Ce.offsetHeight%7C%7C0%3Ce.getClientRects().length))%2Cs%3Dasync(e%2Ct%3D5e3)%3D%3E%7Bfor(var%20o%2Cr%3DDate.now()%3BDate.now()-r%3Ct%3B)%7Bfor(o%20of%20document.querySelectorAll(e))if(i(o))return%20o%3Bawait%20a(50)%7Dreturn%20null%7D%2Cd%3Dasync(t%2Ce%3D5e3)%3D%3E%7Bfor(var%20o%2Cr%3DDate.now()%3BDate.now()-r%3Ce%3B)%7Blet%20e%3D0%3Bfor(o%20of%20document.querySelectorAll(t))i(o)%26%26e%2B%2B%3Bif(0%3D%3D%3De)return!0%3Bawait%20a(50)%7Dreturn!1%7D%2Cu%3D()%3D%3E%7Bdocument.querySelectorAll('input%5Btype%3D%22checkbox%22%5D%5Bng-model%5E%3D%22!%22%5D').forEach(t%3D%3E%7Bvar%20e%3Dt.getAttribute(%22ng-model%22).trim()%3Bif(%2F%5E!%5Cw%2B%2F.test(e))%7Be.slice(1)%3Bconsole.warn(%60%F0%9F%94%A7%20%E4%BF%AE%E8%A3%9C%20ng-model%3D%22%24%7Be%7D%22%20%E2%86%92%20%E6%94%B9%E7%94%A8%20ng-checked%3D%22%24%7Be%7D%22%60)%2Ct.removeAttribute(%22ng-model%22)%2Ct.setAttribute(%22ng-checked%22%2Ce)%3Btry%7Bvar%20o%2Cr%3Dangular.element(t).scope()%3Br%26%26(o%3Dr.%24eval(e)%2Ct.checked%3D!!o)%7Dcatch(e)%7Bconsole.warn(%22%E7%84%A1%E6%B3%95%E8%A9%95%E4%BC%B0%20model%20%E8%A1%A8%E9%81%94%E5%BC%8F%EF%BC%8C%E8%B7%B3%E9%81%8E%E5%88%9D%E5%A7%8B%E7%8B%80%E6%85%8B%E8%A8%AD%E5%AE%9A%22)%2Ct.checked%3D!1%7Dtry%7Bvar%20l%3Dangular.element(t).scope().%24watch(e%2Ce%3D%3E%7Bt.checked!%3D%3D!!e%26%26(t.checked%3D!!e)%7D)%3Bt.__deregister%3Dl%7Dcatch(e)%7Bconsole.warn(%22%E7%84%A1%E6%B3%95%E5%BB%BA%E7%AB%8B%20%24watch%EF%BC%8C%E5%83%85%E5%9F%B7%E8%A1%8C%E4%B8%80%E6%AC%A1%E6%9B%B4%E6%96%B0%22)%7D%7D%7D)%7D%2Cg%3Dasync()%3D%3Es('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D%20table%20tbody%20tr%20td%20a%5Bng-click*%3D%22toSAKYC001%22%5D'%2C5e3)%3Bawait%20async%20function%20t()%7Bconsole.log(%22%F0%9F%94%8D%20%E9%96%8B%E5%A7%8B%E6%8E%83%E6%8F%8F%E4%B8%BB%E8%A1%A8%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8...%22)%3Bu()%3Bvar%20o%3DsetInterval(()%3D%3E%7Bu()%7D%2C300)%3Blet%20r%3D!1%3Bvar%20l%3Ddocument.querySelectorAll('div%5Bng-controller%3D%22RSBCM03Controller%22%5D%20table%20tbody%20tr')%3Bfor(let%20e%3D0%3Be%3Cl.length%3Be%2B%2B)%7Bvar%20n%3Dl%5Be%5D.querySelector(%22td%3Anth-child(5)%20a%22)%3Bif(n)%7Bvar%20c%3DparseInt(n.innerText.trim()%2C10)%3Bif(0%3Cc)return%20console.log(%60%3E%3E%3E%20%5B%E4%B8%BB%E8%A1%A8%5D%20%E7%99%BC%E7%8F%BE%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8%3A%20%24%7Bc%7D%EF%BC%8C%E9%80%B2%E5%85%A5%E6%98%8E%E7%B4%B0...%60)%2Cn.click()%2Cr%3D!0%2Cawait%20s('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D')%3F(u()%2Cawait%20async%20function()%7Bfor(%3B%3B)%7Bvar%20e%2Ct%3Dawait%20g()%3Bif(!t)%7Bconsole.log(%22%F0%9F%93%8B%20%E7%84%A1%E6%9B%B4%E5%A4%9A%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99%EF%BC%8C%E6%BA%96%E5%82%99%E9%97%9C%E9%96%89%E6%98%8E%E7%B4%B0%E8%A6%96%E7%AA%97...%22)%3Bfor(e%20of%20document.querySelectorAll('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D%20button.close'))if(i(e))%7Be.click()%3Bbreak%7Dreturn%20void%20await%20d('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D')%7Dvar%20o%2Cr%3Dt.innerText.trim()%3Bif(console.log(%22%F0%9F%91%89%20%E9%BB%9E%E6%93%8A%E5%AE%A2%E6%88%B6%3A%20%22%2Br)%2Ct.click()%2Cr%3Dawait%20s('button%5Bng-click%3D%22checkCust()%22%5D'))await%20a(100)%2Cr.click()%2Cconsole.log(%22%E2%9C%85%20%E5%B7%B2%E9%80%81%E5%87%BA%E7%A2%BA%E8%AA%8D%22)%2Cawait%20d('div%5Bng-controller%3D%22RSBCM03_CHECKController%22%5D')%2Cawait%20a(200)%3Belse%7Bconsole.error(%22%E2%9A%A0%EF%B8%8F%20%E7%84%A1%E6%B3%95%E6%89%BE%E5%88%B0%E7%A2%BA%E8%AA%8D%E6%8C%89%E9%88%95%EF%BC%8C%E5%98%97%E8%A9%A6%E9%97%9C%E9%96%89...%22)%3Bfor(o%20of%20document.querySelectorAll('div%5Bng-controller%3D%22RSBCM03_CHECKController%22%5D%20button.close'))if(i(o))%7Bo.click()%2Cawait%20a(500)%3Bbreak%7D%7D%7D%7D()%2CclearInterval(o)%2Ct())%3A(console.error(%22%E2%9D%8C%20%E9%8C%AF%E8%AA%A4%EF%BC%9ABCM03-2%20%E6%9C%AA%E9%96%8B%E5%95%9F%22)%2Cvoid%20clearInterval(o))%7D%7Dr%7C%7C(clearInterval(o)%2Cconsole.log(%22%E2%9C%85%20%E5%85%A8%E9%83%A8%E4%BD%9C%E6%A5%AD%E7%B5%90%E6%9D%9F%EF%BC%81%22)%2Calert(%22%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22))%7D()%7D()%7D)();"
-                    >BCM03自動簽核</a
-                >
-            </div>
-
-            <div class="tool-card">
-                <span class="bcm-tag bcm-04">BCM04</span>
-                <h2>BCM04 自動簽核</h2>
-                <p>BCM04 全流程自動化腳本 V2.9</p>
-                <a
-                    class="bookmarklet"
-                    href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%F0%9F%9A%80%20BCM04%20%E5%85%A8%E6%B5%81%E7%A8%8B%E6%95%B4%E5%90%88%E8%87%AA%E5%8B%95%E5%8C%96%E8%85%B3%E6%9C%AC%20V2.9%20(%E9%82%8F%E8%BC%AF%E5%84%AA%E5%8C%96%E7%89%88)%20%E5%95%9F%E5%8B%95...%22)%3Bvar%20l%3Dnew%20Set%3Bconst%20r%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%3Bfunction%20i(e)%7Breturn!(!e%7C%7C!(e.offsetWidth%7C%7Ce.offsetHeight%7C%7Ce.getClientRects().length))%7Dasync%20function%20c(e%2Ct%3D1e4)%7Bfor(var%20o%3DDate.now()%3BDate.now()-o%3Ct%3B)%7Bvar%20n%3Ddocument.evaluate(e%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(i(n))return%20n%3Bawait%20r(500)%7Dreturn%20null%7Dfunction%20s()%7Bvar%20e%3DArray.from(document.querySelectorAll('button.close%2C%20.ngdialog-close%2C%20button%5Btitle%3D%22Close%22%5D%2C%20span.ui-icon-closethick')).filter(e%3D%3Ei(e))%3B0%3Ce.length%3Fe%5Be.length-1%5D.click()%3Adocument.dispatchEvent(new%20KeyboardEvent(%22keydown%22%2C%7BkeyCode%3A27%2Cwhich%3A27%2Ckey%3A%22Escape%22%7D))%7Dasync%20function%20u(e)%7Bif(e)%7Be.hasAttribute(%22disabled%22)%26%26(e.removeAttribute(%22disabled%22)%2Ce.classList.remove(%22disabled%22)%2Ce.disabled%3D!1%2Cawait%20r(50))%3Btry%7Be.scrollIntoView(%7Bbehavior%3A%22auto%22%2Cblock%3A%22center%22%7D)%7Dcatch(e)%7B%7De.dispatchEvent(new%20MouseEvent(%22mousedown%22%2C%7Bbubbles%3A!0%7D))%2Ce.dispatchEvent(new%20MouseEvent(%22mouseup%22%2C%7Bbubbles%3A!0%7D))%2Ce.click()%2Cawait%20r(200)%7D%7Dasync%20function%20f(t%2Ce)%7Bconsole.log(%22%20%20%20%5BBCM04-5%5D%20%E6%AD%A3%E5%9C%A8%E8%A8%AD%E5%AE%9A%EF%BC%9A%22%2Bt)%3Blet%20o%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26!(o%3Dfunction(e)%7Bvar%20t%3Ddocument.evaluate(%60%2F%2F*%5Bcontains(text()%2C%20'%24%7Be%7D')%20and%20not(self%3A%3Ascript)%5D%60%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bfor(let%20e%3D0%3Be%3Ct.snapshotLength%3Be%2B%2B)%7Bvar%20n%3Dt.snapshotItem(e)%3Bif(i(n))%7Blet%20t%3Dn.parentElement%2Co%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26t%3Be%2B%2B)%7Bvar%20a%3Dt.querySelectorAll(%22.custom-combobox-toggle%22)%3Bif(0%3Ca.length)for(var%20l%20of%20a)if(n.compareDocumentPosition(l)%26Node.DOCUMENT_POSITION_FOLLOWING)%7Bo%3Dl%3Bbreak%7Dif(o)break%3Bt%3Dt.parentElement%7Dif(o)return%20o%7D%7Dreturn%20null%7D(t))%3Be%2B%2B)await%20r(200)%3Bif(!o)return%20console.error(%60%20%20%20%E2%9D%8C%20%E5%9C%A8%20%22%24%7Bt%7D%22%20%E9%99%84%E8%BF%91%E6%89%BE%E4%B8%8D%E5%88%B0%E4%B8%8B%E6%8B%89%E6%8C%89%E9%88%95%60)%2C!1%3Bawait%20u(o)%3Blet%20n%3Dnull%3Bfor(let%20e%3D0%3Be%3C10%3Be%2B%2B)%7Bvar%20a%3Bfor(a%20of%20document.querySelectorAll(%22ul.ui-autocomplete%22))if(i(a))%7Bn%3Da%3Bbreak%7Dif(n)break%3Bawait%20r(100)%7Dvar%20l%3Breturn%20n%3F(l%3Dn.querySelectorAll(%22li.ui-menu-item%20a%2C%20li.ui-menu-item%22)).length%3Ee%3F(await%20u(l%5Be%5D)%2C!0)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E9%81%B8%E9%A0%85%E6%95%B8%E9%87%8F%E4%B8%8D%E8%B6%B3%22)%2Cawait%20u(o)%2C!1)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E9%81%B8%E5%96%AE%E6%9C%AA%E5%BD%88%E5%87%BA%22)%2Cawait%20u(o)%2C!1)%7Dvar%20e%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%9F%A5%E8%A9%A2')%5D%22%2C3e3)%3Bfor(e%26%26(console.log(%22%E6%AD%A5%E9%A9%9F%201%3A%20%E9%BB%9E%E6%93%8A%20BCM04-1%20%5B%E6%9F%A5%E8%A9%A2%5D%22)%2Cawait%20u(e)%2Cawait%20r(2e3))%3B%3B)%7Bconsole.log(%22%E6%AD%A5%E9%A9%9F%202%3A%20%E5%B0%8B%E6%89%BE%20%5B%E5%AE%A2%E6%88%B6%E6%95%B8%5D%20%E6%AC%84%E4%BD%8D%E7%9A%84%E6%98%9F%E8%99%9F...%22)%3Bvar%20t%3Dawait%20c(%22%2F%2Ftd%2Fa%5Bcontains(text()%2C%20'*')%5D%22%2C3e3)%3Bif(!t)%7Bconsole.log(%22%E2%9C%85%20%E7%95%AB%E9%9D%A2%E4%B8%8A%E5%B7%B2%E7%84%A1%E6%98%9F%E8%99%9F%EF%BC%8C%E6%B5%81%E7%A8%8B%E7%B5%90%E6%9D%9F%EF%BC%81%22)%2Calert(%22%E4%B9%99%E4%BB%94%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%A0%B1%E8%A1%A8%E5%B0%8F%E7%A8%8B%E5%BC%8F%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22)%3Bbreak%7Dfor(console.log(%22%3E%3E%3E%20%E9%80%B2%E5%85%A5%E6%98%9F%E8%99%9F%E9%80%A3%E7%B5%90...%22)%2Cawait%20u(t)%2Cawait%20r(3e3)%3B%3B)%7Blet%20e%3Dnull%3Bfor(const%20h%20of%20document.querySelectorAll(%22table%22))if(h.innerText.includes(%22%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D%22)%26%26h.innerText.includes(%22%E5%B7%B2%E7%A2%BA%E8%AA%8D%22))%7Be%3Dh%3Bbreak%7Dif(!e)%7Bconsole.warn(%22%E2%9A%A0%EF%B8%8F%20%E6%89%BE%E4%B8%8D%E5%88%B0%20BCM04-2%20%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%8F%AF%E8%83%BD%E5%B0%9A%E6%9C%AA%E8%BC%89%E5%85%A5%E6%88%96%E5%B7%B2%E9%97%9C%E9%96%89%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dvar%20w%3De.querySelectorAll(%22tbody%20tr%22)%3Bif(0%3D%3D%3Dw.length%7C%7C1%3D%3D%3Dw.length%26%26w%5B0%5D.innerText.includes(%22%E7%84%A1%E8%B3%87%E6%96%99%22))%7Bconsole.log(%22%3E%3E%3E%20BCM04-2%20%E7%84%A1%E8%B3%87%E6%96%99%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%8A%E4%B8%80%E5%B1%A4...%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dlet%20t%3Dnull%2Co%3D%22%22%3Bfor(const%20m%20of%20w)%7Bvar%20d%3Dm.querySelector('input%5Btype%3D%22checkbox%22%5D')%2Cg%3Dm.querySelector(%22a%22)%3Bif(g)%7Bg%3Dg.innerText.trim()%2Cd%3Dd%26%26d.checked%3Bif(!d%26%26!l.has(g))%7Bt%3Dm%2Co%3Dg%3Bbreak%7D%7D%26%26l.add(g)%7D%7Dif(!t)%7Bconsole.log(%22%E2%9C%85%20BCM04-2%20%E5%88%97%E8%A1%A8%E6%8E%83%E6%8F%8F%E5%AE%8C%E7%95%A2%20(%E6%89%80%E6%9C%89%E5%AE%A2%E6%88%B6%E7%9A%86%E5%B7%B2%E7%A2%BA%E8%AA%8D%E6%88%96%E5%89%9B%E8%99%95%E7%90%86%E5%AE%8C)%E3%80%82%22)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%EF%BC%8C%E5%9B%9E%E5%88%B0%E4%B8%8A%E4%B8%80%E5%B1%A4...%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dconsole.log(%60%E6%AD%A5%E9%A9%9F%203%3A%20%E9%BB%9E%E6%93%8A%E5%AE%A2%E6%88%B6%20%5B%24%7Bo%7D%5D%20(%E6%9C%AA%E7%A2%BA%E8%AA%8D)%60)%2Cawait%20u(t.querySelector(%22a%22))%2Cconsole.log(%22%E6%AD%A5%E9%A9%9F%204%3A%20%E7%AD%89%E5%BE%85%E5%AE%A2%E6%88%B6%E9%A0%81%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%20(%E7%B4%84%205%20%E7%A7%92)...%22)%2Cawait%20r(5e3)%2Cconsole.log(%22%20%20%20-%3E%20%E5%B0%8B%E6%89%BE%20%5B%E6%9B%B4%E5%A4%9A%3E%3E%5D%20%E6%8C%89%E9%88%95%E4%B8%A6%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%22)%3Blet%20n%3Ddocument.querySelector(%22a%5Bng-click*%3D'toCHSAM120'%5D%22)%2Ca%3D!1%3Bif(n%3Dn%7C%7Cawait%20c(%22%2F%2Fa%5Bcontains(text()%2C%20'%E6%9B%B4%E5%A4%9A')%5D%22%2C3e3))for(let%20e%3D1%3Be%3C%3D3%3Be%2B%2B)try%7Bif(console.log(%60%20%20%20%20%20%20(%E7%AC%AC%20%24%7Be%7D%20%E6%AC%A1%E5%98%97%E8%A9%A6)%20%E8%81%9A%E7%84%A6%E4%B8%A6%E9%BB%9E%E6%93%8A...%60)%2Cn.focus()%2Cn.dispatchEvent(new%20Event(%22focus%22))%2Cawait%20r(300)%2Cn.click()%2Cawait%20c(%22%2F%2F*%5Bcontains(text()%2C%20'%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84%E6%9F%A5%E8%A9%A2')%5D%22%2C2500))%7Bconsole.log(%22%20%20%20%20%20%20-%3E%20%E8%A6%96%E7%AA%97%E9%96%8B%E5%95%9F%E6%88%90%E5%8A%9F%EF%BC%81%22)%2Ca%3D!0%3Bbreak%7Dconsole.warn(%22%20%20%20%20%20%20-%3E%20%E9%BB%9E%E6%93%8A%E5%BE%8C%E7%84%A1%E5%8F%8D%E6%87%89%EF%BC%8C%E7%AD%89%E5%BE%85%E9%87%8D%E8%A9%A6...%22)%2Cawait%20r(1500)%7Dcatch(e)%7Bconsole.error(%22%E9%BB%9E%E6%93%8A%E9%8C%AF%E8%AA%A4%3A%22%2Ce)%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%60)%3Bif(a)%7Bconsole.log(%22%E6%AD%A5%E9%A9%9F%205%3A%20%E5%B0%8B%E6%89%BE%20%5B%E6%96%B0%E5%A2%9E%5D...%22)%3Bw%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C5e3)%3Bif(w)if(await%20u(w)%2Cconsole.log(%22%E6%AD%A5%E9%A9%9F%206%3A%20BCM04-5%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB...%22)%2Cawait%20c(%22%2F%2F*%5Bcontains(text()%2C%20'%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90')%5D%22%2C5e3))%7Bconsole.log(%22%20%20%20-%3E%20%E7%AD%89%E5%BE%85%E8%A1%A8%E5%96%AE%E5%85%83%E4%BB%B6%E6%B8%92%E6%9F%93...%22)%2Cawait%20r(1e3)%3Btry%7Bawait%20f(%22%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E7%AE%A1%E9%81%93%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E7%B5%90%E6%9E%9C%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E8%8A%B1%E8%B2%BB%E6%99%82%E9%96%93%22%2C1)%2Cawait%20async%20function(e)%7Bconsole.log(%22%20%20%20%5BBCM04-5%5D%20%E7%A7%BB%E5%8B%95%E9%A0%85%E7%9B%AE%EF%BC%9A%22%2Be)%3Bvar%20t%2Co%3Ddocument.evaluate(%60%2F%2Foption%5Bcontains(text()%2C%20'%24%7Be%7D')%5D%60%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(!o)return%20console.error(%60%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%E9%A0%85%E7%9B%AE%20%22%24%7Be%7D%22%60)%2C!1%3Bif(o.selected%3D!0%2Co.parentElement.dispatchEvent(new%20Event(%22change%22%2C%7Bbubbles%3A!0%7D))%2C%22undefined%22!%3Dtypeof%20angular)try%7Bangular.element(o.parentElement).triggerHandler(%22change%22)%7Dcatch(e)%7B%7Dawait%20r(300)%3Blet%20n%3Do.parentElement.parentElement%2Ca%3Dnull%3Bfor(let%20e%3D0%3Be%3C6%26%26n%3Be%2B%2B)%7Bfor(t%20of%20n.querySelectorAll(%22button%2C%20a.btn%2C%20div.btn%22))%7Bvar%20l%3Dt.innerText.trim()%3Bif((%22%3E%22%3D%3D%3Dl%7C%7C%22%E2%80%BA%22%3D%3D%3Dl%7C%7Ct.innerHTML.includes(%22ui-icon-triangle-1-e%22)%7C%7Ct.innerHTML.includes(%22glyphicon-chevron-right%22))%26%26i(t))%7Ba%3Dt%3Bbreak%7D%7Dif(a)break%3Bn%3Dn.parentElement%7Dreturn%20a%3F(await%20u(a)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E5%B7%B2%E6%8C%89%E4%B8%8B%E7%A7%BB%E5%8B%95%E6%8C%89%E9%88%95%22)%2C!0)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%3E%5D%20%E7%A7%BB%E5%8B%95%E6%8C%89%E9%88%95%22)%2C!1)%7D(%22%E5%AE%9A%E6%9C%9F%E6%AA%A2%E8%A6%96%E6%B7%A8%E5%80%BC%E7%AE%A1%E7%90%86%E6%95%88%E7%9B%8A%22)%2Cconsole.log(%22%20%20%20-%3E%20%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%96%AE%20(%E7%A2%BA%E5%AE%9A)%22)%3Bvar%20b%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E7%A2%BA%E5%AE%9A')%5D%22%2C2e3)%3Bif(!b)throw%20new%20Error(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E7%A2%BA%E5%AE%9A%E6%8C%89%E9%88%95%22)%3Bawait%20u(b)%2Cawait%20r(2e3)%2Cconsole.log(%60%E2%9C%85%20%E5%AE%A2%E6%88%B6%20%5B%24%7Bo%7D%5D%20%E8%99%95%E7%90%86%E6%88%90%E5%8A%9F%60)%2Cl.add(o)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%20BCM04-4%22)%2Cs()%2Cawait%20r(800)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%20BCM04-3%22)%2Cs()%2Cawait%20r(1e3)%7Dcatch(e)%7Bconsole.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB%E5%A4%B1%E6%95%97%3A%60%2Ce)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(500)%7D%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E8%A1%A8%E5%96%AE%E6%9C%AA%E9%96%8B%E5%95%9F%EF%BC%8C%E9%87%8D%E8%A9%A6...%60)%2Cs()%2Cs()%2Cs()%3Belse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%96%B0%E5%A2%9E%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E9%87%8D%E8%A9%A6...%60)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(1e3)%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84%E8%A6%96%E7%AA%97%E6%9C%AA%E9%96%8B%E5%95%9F%20(%E9%87%8D%E8%A9%A6%E5%A4%B1%E6%95%97)%EF%BC%8C%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%E9%87%8D%E6%96%B0%E9%96%8B%E5%A7%8B...%60)%2Cs()%2Cawait%20r(1e3)%7D%7D%7D()%7D)();"
-                    >BCM04自動簽核</a
-                >
-            </div>
+    <div class="grid-container">
+        <div class="tool-card">
+            <h2>基金理財網不分頁</h2>
+            <p>基金理財網增加選項"不分頁"一次顯示全部基金</p>
+            <a class="bookmarklet"
+                href="javascript:(function() { var xpath = &quot;/html/body/div/div[1]/div[1]/div[1]/div/label/select&quot;; var selectElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; if (selectElement) { if (!selectElement.querySelector(&quot;option[value='9999']&quot;)) { var option = document.createElement('option'); option.value = '9999'; option.text = '不分頁'; selectElement.appendChild(option); } selectElement.value = '9999'; if (typeof jQuery !== 'undefined') { jQuery(selectElement).change(); } else { var event = new Event('change', { 'bubbles': true }); selectElement.dispatchEvent(event); } } else { alert('錯誤：找不到下拉選單。'); } })();">🔍基金理財網不分頁</a>
         </div>
 
-        <div class="password-section">
-            <h2>🔐 進階功能解鎖</h2>
-            <input
-                type="password"
-                id="password-input"
-                placeholder="輸入密碼解鎖進階功能"
-            />
-            <button id="unlock-button">解鎖</button>
+        <div class="tool-card">
+            <h2>文章總結</h2>
+            <p>透過 AI 網頁文章總結和條列式摘要功能</p>
+            <a class="bookmarklet"
+                href="javascript:void(location.href='https://kagi.com/summarizer/index.html?target_language=&summary=takeaway&url=%27+encodeURIComponent(location.href))">📰文章總結</a>
         </div>
 
-        <div id="hidden-features">
-            <div class="hidden-section">
-                <h2>⚡ 隱藏進階功能</h2>
-                <div class="grid-container">
-                    <div class="tool-card">
-                        <h2>自動填答書籤</h2>
-                        <p>自動填寫測驗答案</p>
-                        <a
-                            class="bookmarklet"
-                            href="javascript:(function(){
+        <div class="tool-card">
+            <h2>解除右鍵限制</h2>
+            <p>解除頁面右鍵與選取複製限制</p>
+            <a class="bookmarklet"
+                href="javascript:!function(){function t(e){e.stopPropagation(),e.stopImmediatePropagation&&e.stopImmediatePropagation()}document.querySelectorAll('*').forEach(e=>{'none'===window.getComputedStyle(e,null).getPropertyValue('user-select')&&e.style.setProperty('user-select','text','important')}),['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'].forEach(function(e){document.documentElement.addEventListener(e,t,{capture:!0})}),alert('解除限制成功啦！')}();">🔓
+                解鎖限制</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>解除右鍵限制加強版</h2>
+            <p>針對 JS 強制攔截的網站加強破解</p>
+            <a class="bookmarklet"
+                href="javascript:(function(){var events=['copy','cut','contextmenu','selectstart','mousedown','mouseup','mousemove','keydown','keypress','keyup'];document.querySelectorAll('*').forEach(function(el){events.forEach(function(ev){el['on'+ev]=null;});el.style&&el.style.setProperty&&el.style.setProperty('user-select','text','important');});events.forEach(function(ev){document.addEventListener(ev,function(e){e.stopPropagation();},true);});document.body.setAttribute('contenteditable','true');alert('解除限制成功啦！可自由複製、右鍵、選取！');})();">🔓
+                解鎖加強版</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>網頁備份</h2>
+            <p>備份網頁或繞過 paywall 觀看內容</p>
+            <a class="bookmarklet"
+                href="javascript:(function(){const url=new URL(location.href);url.search='';window.open('https://archive.ph/'+url.toString(),'archiveTab')})();">📦網頁備份</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>網頁轉 Markdown</h2>
+            <p>將網頁內容轉換為 Markdown 格式</p>
+            <a class="bookmarklet"
+                href="javascript:(function(){if(typeof%20TurndownService==='undefined'){var%20s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/turndown/7.1.2/turndown.min.js';s.onload=i;document.body.appendChild(s)}else{i()}function%20i(){var%20s=window.getSelection();var%20h='';if(s.rangeCount>0){var%20c=document.createElement('div');var%20r=s.getRangeAt(0);c.appendChild(r.cloneContents());h=c.innerHTML}else{var%20a=document.querySelector('article');if(a){h=a.innerHTML}else{alert('No%20selection%20found%20and%20no%20article%20element%20detected');return}}if(!h){alert('No%20content%20found%20to%20convert');return}var%20t=new%20TurndownService({headingStyle:'atx',codeBlockStyle:'fenced',emDelimiter:'*',strongDelimiter:'**'});var%20m=t.turndown(h);var%20d=document.createElement('div');d.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:8px;box-shadow:0%200%2010px%20rgba(0,0,0,0.5);z-index:10000;max-width:80%;max-height:80vh;overflow:auto;';var%20a=document.createElement('textarea');a.value=m;a.style.cssText='width:100%;min-height:200px;margin-bottom:10px;padding:8px;';var%20b=document.createElement('button');b.textContent='Close';b.style.cssText='padding:8px%2016px;background:#f0f0f0;border:none;border-radius:4px;cursor:pointer;';b.onclick=function(){document.body.removeChild(d)};var%20y=document.createElement('button');y.textContent='Copy';y.style.cssText='padding:8px%2016px;background:#007bff;color:white;border:none;border-radius:4px;margin-right:10px;cursor:pointer;';y.onclick=function(){a.select();document.execCommand('copy');y.textContent='Copied!';setTimeout(function(){y.textContent='Copy'},2000)};d.appendChild(a);d.appendChild(y);d.appendChild(b);document.body.appendChild(d)}})();">📃網頁轉Markdown</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>閱讀模式</h2>
+            <p>一鍵切換至舒適的閱讀模式</p>
+            <a class="bookmarklet"
+                href="javascript:!function(){location.href='https://clearthis.page/%3Fu='+window.location.href}();">📜閱讀模式</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>引用來源v1</h2>
+            <p>顯示網頁引用來源資訊(含標題、網址、發布日期)</p>
+            <a class="bookmarklet"
+                href="javascript:%28function%28%29%7Bvar%20d%3Ddocument%3Bvar%20s%3Dd.createElement%28%27div%27%29%3Bs.style.cssText%3D%27position%3Afixed%3Btop%3A10px%3Bright%3A10px%3Bbackground%3A%23fff%3Bborder%3A1px%20solid%20%23ccc%3Bpadding%3A15px%3Bz-index%3A9999%3Bmax-width%3A320px%3Bbox-shadow%3A0%202px%2010px%20rgba%280%2C0%2C0%2C0.2%29%3Bword-break%3Abreak-all%3B%27%3Bvar%20title%3Dd.title%7C%7C%27No%20title%27%3Bvar%20url%3Dd.location.href%3Bvar%20meta%3Dd.querySelector%28%27meta%5Bname%3D%5C%22author%5C%22%5D%27%29%3Bvar%20author%3Dmeta%3Fmeta.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20date%3Dd.querySelector%28%27meta%5Bproperty%3D%5C%22article%3Apublished_time%5C%22%5D%27%29%3Bvar%20pubDate%3Ddate%3Fdate.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20btnId%3D%27cite-copy-btn-%27%2BDate.now%28%29%3Bvar%20html%3D%27%3Ch3%20style%3D%5C%22margin%3A0%200%2010px%3Bfont-size%3A16px%3B%5C%22%3E%E5%BC%95%E7%94%A8%E4%BE%86%E6%BA%90%3C%2Fh3%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E6%A8%99%E9%A1%8C%EF%BC%9A%3C%2Fstrong%3E%27%2Btitle%2B%27%3C%2Fp%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%B6%B2%E5%9D%80%EF%BC%9A%3C%2Fstrong%3E%3Ca%20href%3D%5C%22%27%2Burl%2B%27%5C%22%20target%3D%5C%22_blank%5C%22%3E%27%2Burl%2B%27%3C%2Fa%3E%3C%2Fp%3E%27%3Bif%28author%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E4%BD%9C%E8%80%85%EF%BC%9A%3C%2Fstrong%3E%27%2Bauthor%2B%27%3C%2Fp%3E%27%3Bif%28pubDate%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%3C%2Fstrong%3E%27%2BpubDate.substring%280%2C10%29%2B%27%3C%2Fp%3E%27%3Bvar%20citeText%3D%27%E6%A8%99%E9%A1%8C%EF%BC%9A%27%2Btitle%2B%27%5Cn%E7%B6%B2%E5%9D%80%EF%BC%9A%27%2Burl%3Bif%28author%29citeText%2B%3D%27%5Cn%E4%BD%9C%E8%80%85%EF%BC%9A%27%2Bauthor%3Bif%28pubDate%29citeText%2B%3D%27%5Cn%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%27%2BpubDate.substring%280%2C10%29%3Bhtml%2B%3D%27%3Cbutton%20id%3D%5C%22%27%2BbtnId%2B%27%5C%22%20style%3D%5C%22margin-top%3A10px%3Bmargin-right%3A5px%3Bpadding%3A5px%2010px%3Bbackground%3A%23007bff%3Bcolor%3Awhite%3Bborder%3Anone%3Bcursor%3Apointer%3B%5C%22%3E%E8%A4%87%E8%A3%BD%3C%2Fbutton%3E%27%3Bhtml%2B%3D%27%3Cbutton%20onclick%3D%5C%22this.parentElement.remove%28%29%5C%22%20style%3D%5C%22margin-top%3A10px%3Bpadding%3A5px%2010px%3B%5C%22%3E%E9%97%9C%E9%96%89%3C%2Fbutton%3E%27%3Bs.innerHTML%3Dhtml%3Bd.body.appendChild%28s%29%3Bd.getElementById%28btnId%29.addEventListener%28%27click%27%2Cfunction%28%29%7Bnavigator.clipboard.writeText%28citeText%29.then%28function%28%29%7Bvar%20btn%3Dd.getElementById%28btnId%29%3Bbtn.textContent%3D%27%E5%B7%B2%E8%A4%87%E8%A3%BD%EF%BC%81%27%3BsetTimeout%28function%28%29%7Bbtn.textContent%3D%27%E8%A4%87%E8%A3%BD%27%3B%7D%2C2000%29%3B%7D%29%3B%7D%29%3B%7D%29%28%29%3B">📝引用來源v1</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>引用來源v2</h2>
+            <p>顯示網頁引用來源資訊(精簡版)</p>
+            <a class="bookmarklet"
+                href="javascript:%28function%28%29%7Bvar%20d%3Ddocument%3Bvar%20s%3Dd.createElement%28%27div%27%29%3Bs.style.cssText%3D%27position%3Afixed%3Btop%3A10px%3Bright%3A10px%3Bbackground%3A%23fff%3Bborder%3A1px%20solid%20%23ccc%3Bpadding%3A15px%3Bz-index%3A9999%3Bmax-width%3A300px%3Bbox-shadow%3A0%202px%2010px%20rgba%280%2C0%2C0%2C0.2%29%3B%27%3Bvar%20title%3Dd.title%7C%7C%27No%20title%27%3Bvar%20url%3Dd.location.href%3Bvar%20meta%3Dd.querySelector%28%27meta%5Bname%3D%5C%22author%5C%22%5D%27%29%3Bvar%20author%3Dmeta%3Fmeta.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20date%3Dd.querySelector%28%27meta%5Bproperty%3D%5C%22article%3Apublished_time%5C%22%5D%27%29%3Bvar%20pubDate%3Ddate%3Fdate.getAttribute%28%27content%27%29%3A%27%27%3Bvar%20btnId%3D%27cite-copy-btn-%27%2BDate.now%28%29%3Bvar%20html%3D%27%3Ch3%20style%3D%5C%22margin%3A0%200%2010px%3Bfont-size%3A16px%3B%5C%22%3E%E5%BC%95%E7%94%A8%E4%BE%86%E6%BA%90%3C%2Fh3%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E6%A8%99%E9%A1%8C%EF%BC%9A%3C%2Fstrong%3E%27%2Btitle%2B%27%3C%2Fp%3E%27%3Bhtml%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%B6%B2%E5%9D%80%EF%BC%9A%3C%2Fstrong%3E%3Ca%20href%3D%5C%22%27%2Burl%2B%27%5C%22%20target%3D%5C%22_blank%5C%22%3E%27%2Burl.substring%280%2C50%29%2B%27...%3C%2Fa%3E%3C%2Fp%3E%27%3Bif%28author%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E4%BD%9C%E8%80%85%EF%BC%9A%3C%2Fstrong%3E%27%2Bauthor%2B%27%3C%2Fp%3E%27%3Bif%28pubDate%29html%2B%3D%27%3Cp%20style%3D%5C%22margin%3A5px%200%3B%5C%22%3E%3Cstrong%3E%E7%99%BC%E5%B8%83%E6%97%A5%E6%9C%9F%EF%BC%9A%3C%2Fstrong%3E%27%2BpubDate.substring%280%2C10%29%2B%27%3C%2Fp%3E%27%3Bvar%20citeText%3Dtitle%2B%27%5Cn%27%2Burl%3Bhtml%2B%3D%27%3Cbutton%20id%3D%5C%22%27%2BbtnId%2B%27%5C%22%20style%3D%5C%22margin-top%3A10px%3Bmargin-right%3A5px%3Bpadding%3A5px%2010px%3Bbackground%3A%23007bff%3Bcolor%3Awhite%3Bborder%3Anone%3Bcursor%3Apointer%3B%5C%22%3E%E8%A4%87%E8%A3%BD%3C%2Fbutton%3E%27%3Bhtml%2B%3D%27%3Cbutton%20onclick%3D%5C%22this.parentElement.remove%28%29%5C%22%20style%3D%5C%22margin-top%3A10px%3Bpadding%3A5px%2010px%3B%5C%22%3E%E9%97%9C%E9%96%89%3C%2Fbutton%3E%27%3Bs.innerHTML%3Dhtml%3Bd.body.appendChild%28s%29%3Bd.getElementById%28btnId%29.addEventListener%28%27click%27%2Cfunction%28%29%7Bnavigator.clipboard.writeText%28citeText%29.then%28function%28%29%7Bvar%20btn%3Dd.getElementById%28btnId%29%3Bbtn.textContent%3D%27%E5%B7%B2%E8%A4%87%E8%A3%BD%EF%BC%81%27%3BsetTimeout%28function%28%29%7Bbtn.textContent%3D%27%E8%A4%87%E8%A3%BD%27%3B%7D%2C2000%29%3B%7D%29%3B%7D%29%3B%7D%29%28%29%3B">📝引用來源v2</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>🔎CopilotSearch</h2>
+            <p>快速使用 Bing Copilot Search 搜尋任何問題。</p>
+            <a class="bookmarklet"
+                href="javascript:(function(){var d=document,b=d.body,o=d.createElement('div'),m=d.createElement('div'),i=d.createElement('input'),p=d.createElement('div'),c=d.createElement('button');o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center';m.style.cssText='background:#fff;padding:30px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-width:400px;width:90%25;font-family:sans-serif';p.style.cssText='margin-bottom:15px;font-size:16px;color:#333';c.style.cssText='background:#0078d4;color:#fff;border:none;padding:8px 20px;border-radius:4px;cursor:pointer;font-size:14px';p.textContent='請問您要用 Copilot Search 問什麼問題呢？';i.style.cssText='width:100%25;padding:10px;margin-bottom:20px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-size:14px';c.textContent='確定';b.appendChild(o);m.appendChild(p);m.appendChild(i);m.appendChild(c);o.appendChild(m);i.focus();c.onclick=function(){var q=i.value;if(q){b.removeChild(o);window.open('https://www.bing.com/copilotsearch?q='+encodeURIComponent(q),'_blank');}};o.onclick=function(e){if(e.target===o){b.removeChild(o);}};i.onkeydown=function(e){if(e.key==='Enter'){c.click();}};}());">🔎CopilotSearch</a>
+        </div>
+
+        <div class="tool-card">
+            <h2>🔎GoogleAI-v2</h2>
+            <p>快速使用 Google AI Mode 搜尋任何問題。</p>
+            <a class="bookmarklet"
+                href="javascript:(function(){var d=document,b=d.body,o=d.createElement('div'),m=d.createElement('div'),i=d.createElement('textarea'),p=d.createElement('div'),h=d.createElement('div'),f=d.createElement('div'),c=d.createElement('button');o.style.cssText='position:fixed;top:0;left:0;width:100%25;height:100%25;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px)';m.style.cssText='background:#fff;padding:30px;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.25);max-width:480px;width:90%25;font-family:-apple-system,BlinkMacSystemFont,%22Segoe UI%22,sans-serif';p.style.cssText='margin-bottom:8px;font-size:16px;font-weight:600;color:#1f2937';h.style.cssText='margin-bottom:10px;font-size:12px;color:#9ca3af';p.textContent='請問您要用 Google AI 問什麼問題呢？';h.textContent='提示：Enter 換行，Alt + Enter 送出';i.style.cssText='width:100%25;min-height:120px;padding:12px;margin-bottom:16px;border:1px solid #e5e7eb;border-radius:8px;box-sizing:border-box;font-size:14px;font-family:inherit;resize:vertical;line-height:1.5;outline:none;transition:border-color .2s,box-shadow .2s';i.onfocus=function(){i.style.borderColor='#4285f4';i.style.boxShadow='0 0 0 3px rgba(66,133,244,0.15)'};i.onblur=function(){i.style.borderColor='#e5e7eb';i.style.boxShadow='none'};f.style.cssText='display:flex;justify-content:flex-end;align-items:center;gap:10px';var cBase='display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#4285f4 0%25,#1a73e8 100%25);color:#fff;border:none;padding:10px 22px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;line-height:1;letter-spacing:.3px;box-shadow:0 4px 12px rgba(66,133,244,0.35);transition:transform .15s ease,box-shadow .15s ease,filter .15s ease';c.style.cssText=cBase;c.innerHTML='%3Cspan style=%22font-size:13px;opacity:.9%22%3E⏎%3C/span%3E%3Cspan%3E送出%3C/span%3E%3Cspan style=%22font-size:11px;opacity:.75;margin-left:4px;padding:2px 6px;background:rgba(255,255,255,0.18);border-radius:4px%22%3EAlt %2B Enter%3C/span%3E';c.onmouseenter=function(){c.style.filter='brightness(1.05)';c.style.boxShadow='0 6px 16px rgba(66,133,244,0.45)';c.style.transform='translateY(-1px)'};c.onmouseleave=function(){c.style.filter='none';c.style.boxShadow='0 4px 12px rgba(66,133,244,0.35)';c.style.transform='none'};c.onmousedown=function(){c.style.transform='translateY(0)';c.style.filter='brightness(.95)'};c.onmouseup=function(){c.style.transform='translateY(-1px)';c.style.filter='brightness(1.05)'};b.appendChild(o);m.appendChild(p);m.appendChild(h);m.appendChild(i);f.appendChild(c);m.appendChild(f);o.appendChild(m);i.focus();var submit=function(){var q=i.value.trim();if(q){b.removeChild(o);window.open('https://www.google.com/search?udm=50%26aep=11%26q='+encodeURIComponent(q),'_blank');}};c.onclick=submit;o.onclick=function(e){if(e.target===o){b.removeChild(o);}};i.onkeydown=function(e){if(e.key==='Enter'%26%26e.altKey){e.preventDefault();submit();}else if(e.key==='Escape'){b.removeChild(o);}}}());">🔎GoogleAI-v2</a>
+        </div>
+
+        <div class="tool-card">
+            <span class="bcm-tag bcm-02">BCM02</span>
+            <h2>BCM02 自動簽核</h2>
+            <p>BCM02 全流程自動化腳本 V5.2</p>
+            <a class="bookmarklet"
+                href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%F0%9F%9A%80%20BCM02%20%E5%85%A8%E6%B5%81%E7%A8%8B%E8%87%AA%E5%8B%95%E5%8C%96%E8%85%B3%E6%9C%AC%20V5.2%20(%E8%81%9A%E7%84%A1%E9%87%8D%E8%A9%A6%E4%BF%AE%E6%AD%A3%E7%89%88)%20%E5%95%9F%E5%8B%95...%22)%3Bvar%20r%3Dnew%20Set%3Bconst%20i%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%3Bfunction%20c(e)%7Breturn!(!e%7C%7C!(e.offsetWidth%7C%7Ce.offsetHeight%7C%7Ce.getClientRects().length))%7Dasync%20function%20s(e%2Ct%3D1e4)%7Bfor(var%20l%3DDate.now()%3BDate.now()-l%3Ct%3B)%7Bvar%20a%3Ddocument.evaluate(e%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(c(a))return%20a%3Bawait%20i(500)%7Dreturn%20null%7Dasync%20function%20u(e)%7Bif(e)%7Be.hasAttribute(%22disabled%22)%26%26(e.removeAttribute(%22disabled%22)%2Ce.classList.remove(%22disabled%22)%2Ce.disabled%3D!1%2Cawait%20i(50))%3Btry%7Be.scrollIntoView(%7Bbehavior%3A%22auto%22%2Cblock%3A%22center%22%7D)%7Dcatch(e)%7B%7De.dispatchEvent(new%20MouseEvent(%22mousedown%22%2C%7Bbubbles%3A!0%7D))%2Ce.dispatchEvent(new%20MouseEvent(%22mouseup%22%2C%7Bbubbles%3A!0%7D))%2Ce.click()%2Cawait%20i(500)%7D%7Dfunction%20f()%7Bvar%20e%3DArray.from(document.querySelectorAll('button.close%2C%20.ngdialog-close%2C%20button%5Btitle%3D%22Close%22%5D%2C%20span.ui-icon-closethick%2C%20.ui-dialog-titlebar-close')).filter(e%3D%3Ec(e))%3B0%3Ce.length%3Fe%5Be.length-1%5D.click()%3Adocument.dispatchEvent(new%20KeyboardEvent(%22keydown%22%2C%7BkeyCode%3A27%2Cwhich%3A27%2Ckey%3A%22Escape%22%2Cbubbles%3A!0%7D))%7Dasync%20function%20d(e%2Cl)%7Bconsole.log(%22%20%20%20%5B%E5%A1%AB%E5%AF%AB%5D%20%E8%A8%AD%E5%AE%9A%EF%BC%9A%22%2Be)%3Bvar%20a%2Co%2Ce%3Dfunction(e)%7Bvar%20t%3Ddocument.evaluate(%60%2F%2F*%5Bcontains(text()%2C%20'%24%7Be%7D')%20and%20not(self%3A%3Ascript)%5D%60%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bfor(let%20e%3D0%3Be%3Ct.snapshotLength%3Be%2B%2B)%7Bvar%20a%3Dt.snapshotItem(e)%3Bif(c(a))%7Blet%20t%3Da.parentElement%2Cl%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26t%3Be%2B%2B)%7Bvar%20o%3Dt.querySelectorAll(%22.custom-combobox-toggle%22)%3Bif(0%3Co.length)for(var%20n%20of%20o)if(a.compareDocumentPosition(n)%26Node.DOCUMENT_POSITION_FOLLOWING)%7Bl%3Dn%3Bbreak%7Dif(l)break%3Bt%3Dt.parentElement%7Dif(l)return%20l%7D%7Dreturn%20null%7D(e)%3Bif(e)%7Bawait%20u(e)%3Blet%20t%3Dnull%3Bfor(let%20e%3D0%3Be%3C10%3Be%2B%2B)%7Bfor(a%20of%20document.querySelectorAll(%22ul.ui-autocomplete%22))if(c(a))%7Bt%3Da%3Bbreak%7Dif(t)break%3Bawait%20i(100)%7Dt%3F((o%3Dt.querySelectorAll(%22li.ui-menu-item%20a%2C%20li.ui-menu-item%22)).length%3El%3Fawait%20u(o%5Bl%5D)%3Aawait%20u(e)%2Cawait%20i(200))%3Aawait%20u(e)%7D%7Dtry%7Bfor(%3B%3B)%7Bconsole.log(%22%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%22)%2Cconsole.log(%22%E5%A4%96%E5%B1%A4%E8%BF%B4%E5%9C%88%3A%20%E6%90%9C%E5%B0%8B%20BCM02-1%20%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8...%22)%2Cawait%20i(1e3)%3Blet%20l%3D!1%3Bvar%20e%3Ddocument.evaluate(%22%2F%2Fth%5Bcontains(text()%2C%20'%E6%9C%AC%E6%9C%88%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8')%5D%20%7C%20%2F%2Ftd%5Bcontains(text()%2C%20'%E6%9C%AC%E6%9C%88%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8')%5D%22%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bif(0%3Ce.snapshotLength)%7Bvar%20a%3De.snapshotItem(0)%2Co%3Da.closest(%22table%22)%2Cn%3Da.cellIndex%3Blet%20t%3Do.querySelectorAll(%22tbody%20tr%22)%3B0%3D%3D%3Dt.length%26%26(t%3Do.querySelectorAll(%22tr%22))%3Bfor(let%20e%3D0%3Be%3Ct.length%3Be%2B%2B)%7Bvar%20w%3Dt%5Be%5D.cells%3Bif(!(w.length%3C%3Dn))%7Bvar%20g%3DparseInt(w%5Bn%5D.innerText.trim()%2C10)%3Bif(!isNaN(g)%26%260!%3D%3Dg)%7Bvar%20h%3Dw%5Bn%5D.querySelector(%22a%22)%3Bif(h)%7Bconsole.log(%60%20%20%20%E2%9C%85%20%E7%99%BC%E7%8F%BE%E5%BE%85%E8%99%95%E7%90%86%E9%A0%85%E7%9B%AE%20(%E6%95%B8%E9%87%8F%3A%20%24%7Bg%7D)%60)%2Cawait%20u(h)%2Cl%3D!0%3Bbreak%7D%7D%7D%7D%7Delse%20console.warn(%22%20%20%20%E2%9A%A0%EF%B8%8F%20%E6%89%BE%E4%B8%8D%E5%88%B0%E5%84%80%E8%A1%A8%E6%9D%BF%E8%A1%A8%E6%A0%BC%20(%E5%8F%AF%E8%83%BD%E5%B7%B2%E9%80%B2%E5%85%A5%E5%85%A7%E5%B1%A4%E6%88%96%E9%A0%81%E9%9D%A2%E6%9C%AA%E8%BC%89%E5%85%A5)%22)%3Bif(!l)%7Bconsole.log(%22%F0%9F%8E%89%20%E4%BB%BB%E5%8B%99%E5%AE%8C%E6%88%90%EF%BC%9A%E5%B7%B2%E7%84%A1%E5%BE%85%E8%99%95%E7%90%86%E9%A0%85%E7%9B%AE%E3%80%82%22)%2Calert(%22%E4%B9%99%E4%BB%94%E5%8A%AA%E5%8A%9B%E5%81%9A%E5%AE%8C%E5%8D%8A%E5%A5%97%E7%9A%84%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%A0%B1%E8%A1%A8%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22)%3Bbreak%7Dfor(await%20i(3e3)%3B%3B)%7Bconsole.log(%22-----------------------------------------%22)%2Cconsole.log(%22%E5%85%A7%E5%B1%A4%E8%BF%B4%E5%9C%88%3A%20%E6%8E%83%E6%8F%8F%20BCM02-2%20%E5%AE%A2%E6%88%B6%E5%88%97%E8%A1%A8...%22)%3Bvar%20b%3Dawait%20s(%22%2F%2Ftable%5Bcontains(.%2C%20'%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D')%5D%22%2C5e3)%3Bif(!b)%7Bconsole.log(%22%20%20%20%E2%84%B9%EF%B8%8F%20%E5%AE%A2%E6%88%B6%E5%88%97%E8%A1%A8%E5%B7%B2%E9%97%9C%E9%96%89%E6%88%96%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%EF%BC%8C%E5%9B%9E%E5%88%B0%E5%A4%96%E5%B1%A4%E3%80%82%22)%3Bbreak%7Dlet%20t%3D-1%3Bvar%20m%2Cv%3Db.querySelectorAll(%22th%2C%20thead%20td%2C%20tr.grid-header%20td%22)%3Bfor(let%20e%3D0%3Be%3Cv.length%3Be%2B%2B)if(v%5Be%5D.innerText.includes(%22%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D%22))%7Bt%3De%3Bbreak%7D-1%3D%3D%3Dt%26%26(t%3D3)%3Blet%20e%3Db.querySelectorAll(%22tbody%20tr%22)%3Bif(0%3D%3D%3De.length)%7Bvar%20E%2Cy%3Db.querySelectorAll(%22tr%22)%2Cp%3D%5B%5D%3Bfor(E%20of%20y)0%3D%3D%3DE.querySelectorAll(%22th%22).length%26%26p.push(E)%3Be%3Dp%7Dlet%20l%3Dnull%2Ca%3D%22%22%3Bfor(m%20of%20e)if(!(m.cells.length%3C%3Dt))%7Bvar%20S%3Dm.cells%5Bt%5D.innerText.trim()%3Bif(!r.has(S)%26%260%3CS.length)%7Bl%3Dm%2Ca%3DS%3Bbreak%7D%7Dif(!l)%7Bconsole.log(%22%20%20%20%E2%9C%85%20%E6%AD%A4%E5%88%86%E9%A1%9E%E5%AE%A2%E6%88%B6%E5%B7%B2%E5%85%A8%E9%83%A8%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%E3%80%82%22)%3Bbreak%7Dconsole.log(%22%20%20%20-%3E%20%E9%8E%96%E5%AE%9A%E5%AE%A2%E6%88%B6%EF%BC%9A%22%2Ba)%2Cawait%20u(l.cells%5Bt%5D.querySelector(%22a%22)%7C%7Cl.cells%5Bt%5D)%2Cconsole.log(%22%20%20%20-%3E%20%E7%AD%89%E5%BE%85%E5%AE%A2%E6%88%B6%E9%A0%81%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%20(%E7%B4%84%205%20%E7%A7%92)...%22)%2Cawait%20i(5e3)%2Cconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%203%5D%20%E5%B0%8B%E6%89%BE%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%E4%B8%A6%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%22)%3Blet%20o%3Ddocument.querySelector(%22a%5Bng-click*%3D'toCHSAM120'%5D%22)%2Cn%3D(o%3Do%7C%7Cawait%20s(%22%2F%2Fa%5Bcontains(text()%2C%20'%E6%9B%B4%E5%A4%9A')%5D%22%2C3e3)%2C!1)%3Bif(o)for(let%20e%3D1%3Be%3C%3D3%3Be%2B%2B)try%7Bif(console.log(%60%20%20%20%20%20%20-%3E%20%E7%AC%AC%20%24%7Be%7D%20%E6%AC%A1%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%60)%2Co.focus()%2Co.dispatchEvent(new%20Event(%22focus%22))%2Cawait%20i(500)%2Co.click()%2Cawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C2e3))%7Bconsole.log(%22%20%20%20%20%20%20-%3E%20%E2%9C%85%20%E6%88%90%E5%8A%9F%E6%89%93%E9%96%8B%E4%BA%8C%E5%8B%95%E7%B4%80%E9%8C%84%E8%A6%96%E7%AA%97%EF%BC%81%22)%2Cn%3D!0%3Bbreak%7Dconsole.warn(%22%20%20%20%20%20%20%E2%9A%A0%EF%B8%8F%20%E9%BB%9E%E6%93%8A%E5%BE%8C%E6%9C%AA%E7%99%BC%E7%8F%BE%20%5B%E6%96%B0%E5%A2%9E%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E5%8F%AF%E8%83%BD%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%E4%B8%AD...%22)%2Cawait%20i(2e3)%7Dcatch(e)%7Bconsole.error(%60%20%20%20%20%20%20%E2%9D%8C%20%E9%BB%9E%E6%93%8A%E7%99%BC%E7%94%9F%E9%8C%AF%E8%AA%A4%3A%20%24%7Be.message%7D%EF%BC%8C%E7%AD%89%E5%BE%85%E9%87%8D%E8%A9%A6...%60)%2Cawait%20i(2e3)%7Delse%20console.error(%22%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E8%B7%B3%E9%81%8E%E3%80%82%22)%3Bif(n)%7Bconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%204%5D%20%E9%BB%9E%E9%81%B8%20%5B%E6%96%B0%E5%A2%9E%5D...%22)%3Bvar%20k%3Dawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C3e3)%3Bif(k)if(await%20u(k)%2Cconsole.log(%22%20%20%20-%3E%20%5B%E6%AD%A5%E9%A9%9F%205%5D%20%E5%B0%8B%E6%89%BE%E8%A1%A8%E5%96%AE...%22)%2Cawait%20s(%22%2F%2F*%5Bcontains(text()%2C%20'%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90')%5D%22%2C5e3))%7Bawait%20i(1e3)%3Btry%7Bawait%20d(%22%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E7%AE%A1%E9%81%93%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E7%B5%90%E6%9E%9C%22%2C1)%2Cawait%20d(%22%E8%81%AF%E7%B9%AB%E8%8A%B1%E8%B2%BB%E6%99%82%E9%96%93%22%2C1)%2CA%3DD%3DT%3Dvoid%200%3Bvar%20A%2CT%3D%22%E5%AE%9A%E6%9C%9F%E6%AA%A2%E8%A6%96%E6%B7%A8%E5%80%BC%E7%AE%A1%E7%90%86%E6%95%88%E7%9B%8A%22%3Bif(console.log(%22%20%20%20%5B%E5%A1%AB%E5%AF%AB%5D%20%E7%A7%BB%E5%8B%95%E9%A0%85%E7%9B%AE%EF%BC%9A%22%2BT)%2CT%3Ddocument.evaluate(%60%2F%2Foption%5Bcontains(text()%2C%20'%24%7BT%7D')%5D%60%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue)%7BT.selected%3D!0%2CT.parentElement.dispatchEvent(new%20Event(%22change%22%2C%7Bbubbles%3A!0%7D))%3Btry%7Bangular.element(T.parentElement).triggerHandler(%22change%22)%7Dcatch(e)%7B%7Dawait%20i(300)%3Blet%20t%3DT.parentElement.parentElement%2Cl%3Dnull%3Bfor(let%20e%3D0%3Be%3C6%26%26t%3Be%2B%2B)%7Bfor(A%20of%20t.querySelectorAll(%22button%2C%20a.btn%2C%20div.btn%22))%7Bvar%20D%3DA.innerText.trim()%3Bif((%22%3E%22%3D%3D%3DD%7C%7C%22%E2%80%BA%22%3D%3D%3DD%7C%7CA.innerHTML.includes(%22ui-icon%22)%7C%7CA.innerHTML.includes(%22glyphicon%22))%26%26c(A))%7Bl%3DA%3Bbreak%7D%7Dif(l)break%3Bt%3Dt.parentElement%7Dl%26%26await%20u(l)%7Dawait%200%3Bvar%20x%3Dawait%20s(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E7%A2%BA%E5%AE%9A')%5D%22%2C3e3)%3Bif(!x)throw%20new%20Error(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E7%A2%BA%E5%AE%9A%E6%8C%89%E9%88%95%22)%3Bawait%20u(x)%2Cconsole.log(%22%20%20%20%20%20%20%5B%E6%88%90%E5%8A%9F%5D%20%E5%B7%B2%E9%BB%9E%E6%93%8A%E7%A2%BA%E5%AE%9A%EF%BC%81%22)%2Cr.add(a)%2Cawait%20i(2e3)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%20(%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84)%22)%2Cf()%2Cawait%20i(1e3)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%20(%E5%AE%A2%E6%88%B6%E9%A0%81)%22)%2Cf()%2Cawait%20i(1500)%7Dcatch(e)%7Bconsole.error(%22%20%20%20%20%20%20%E2%9D%8C%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB%E5%A4%B1%E6%95%97%3A%22%2Ce)%2Cr.add(a)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(1e3)%7D%7Delse%20console.error(%22%20%20%20%20%20%20%E2%9D%8C%20%E8%A1%A8%E5%96%AE%E6%9C%AA%E9%96%8B%E5%95%9F%22)%2Cr.add(a)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(500)%2Cf()%2Cawait%20i(1e3)%3Belse%20r.add(a)%2Cf()%2Cawait%20i(1e3)%7Delse%20console.error(%22%20%20%20%E2%9D%8C%20%E5%A4%9A%E6%AC%A1%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A%E5%A4%B1%E6%95%97%EF%BC%8C%E8%B7%B3%E9%81%8E%E6%AD%A4%E5%AE%A2%E6%88%B6%E3%80%82%22)%2Cr.add(a)%2Cf()%2Cawait%20i(1e3)%7Dconsole.log(%22%E5%85%A7%E5%B1%A4%E8%99%95%E7%90%86%E5%AE%8C%E7%95%A2%EF%BC%8C%E9%97%9C%E9%96%89%20BCM02-2%20%E5%88%97%E8%A1%A8...%22)%2Cf()%2Cawait%20i(2e3)%7D%7Dcatch(e)%7Bconsole.error(%22%E2%9D%8C%20%E7%B3%BB%E7%B5%B1%E9%8C%AF%E8%AA%A4%3A%22%2Ce)%2Calert(%22%E7%A8%8B%E5%BC%8F%E5%9F%B7%E8%A1%8C%E4%B8%AD%E6%96%B7%EF%BC%9A%22%2Be.message)%7D%7D()%7D)();">BCM02自動簽核</a>
+        </div>
+
+        <div class="tool-card">
+            <span class="bcm-tag bcm-03">BCM03</span>
+            <h2>BCM03 自動簽核</h2>
+            <p>BCM03 全流程自動化腳本 第五版</p>
+            <a class="bookmarklet"
+                href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%3E%3E%3E%20%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E8%85%B3%E6%9C%AC%E5%95%9F%E5%8B%95%20(ngModel%E4%BF%AE%E8%A3%9C%2B%E6%A5%B5%E9%80%9F%E5%84%AA%E5%8C%96%E7%89%88)...%22)%3Bconst%20a%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%2Ci%3De%3D%3E!(!e%7C%7C!(0%3Ce.offsetWidth%7C%7C0%3Ce.offsetHeight%7C%7C0%3Ce.getClientRects().length))%2Cs%3Dasync(e%2Ct%3D5e3)%3D%3E%7Bfor(var%20o%2Cr%3DDate.now()%3BDate.now()-r%3Ct%3B)%7Bfor(o%20of%20document.querySelectorAll(e))if(i(o))return%20o%3Bawait%20a(50)%7Dreturn%20null%7D%2Cd%3Dasync(t%2Ce%3D5e3)%3D%3E%7Bfor(var%20o%2Cr%3DDate.now()%3BDate.now()-r%3Ce%3B)%7Blet%20e%3D0%3Bfor(o%20of%20document.querySelectorAll(t))i(o)%26%26e%2B%2B%3Bif(0%3D%3D%3De)return!0%3Bawait%20a(50)%7Dreturn!1%7D%2Cu%3D()%3D%3E%7Bdocument.querySelectorAll('input%5Btype%3D%22checkbox%22%5D%5Bng-model%5E%3D%22!%22%5D').forEach(t%3D%3E%7Bvar%20e%3Dt.getAttribute(%22ng-model%22).trim()%3Bif(%2F%5E!%5Cw%2B%2F.test(e))%7Be.slice(1)%3Bconsole.warn(%60%F0%9F%94%A7%20%E4%BF%AE%E8%A3%9C%20ng-model%3D%22%24%7Be%7D%22%20%E2%86%92%20%E6%94%B9%E7%94%A8%20ng-checked%3D%22%24%7Be%7D%22%60)%2Ct.removeAttribute(%22ng-model%22)%2Ct.setAttribute(%22ng-checked%22%2Ce)%3Btry%7Bvar%20o%2Cr%3Dangular.element(t).scope()%3Br%26%26(o%3Dr.%24eval(e)%2Ct.checked%3D!!o)%7Dcatch(e)%7Bconsole.warn(%22%E7%84%A1%E6%B3%95%E8%A9%95%E4%BC%B0%20model%20%E8%A1%A8%E9%81%94%E5%BC%8F%EF%BC%8C%E8%B7%B3%E9%81%8E%E5%88%9D%E5%A7%8B%E7%8B%80%E6%85%8B%E8%A8%AD%E5%AE%9A%22)%2Ct.checked%3D!1%7Dtry%7Bvar%20l%3Dangular.element(t).scope().%24watch(e%2Ce%3D%3E%7Bt.checked!%3D%3D!!e%26%26(t.checked%3D!!e)%7D)%3Bt.__deregister%3Dl%7Dcatch(e)%7Bconsole.warn(%22%E7%84%A1%E6%B3%95%E5%BB%BA%E7%AB%8B%20%24watch%EF%BC%8C%E5%83%85%E5%9F%B7%E8%A1%8C%E4%B8%80%E6%AC%A1%E6%9B%B4%E6%96%B0%22)%7D%7D%7D)%7D%2Cg%3Dasync()%3D%3Es('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D%20table%20tbody%20tr%20td%20a%5Bng-click*%3D%22toSAKYC001%22%5D'%2C5e3)%3Bawait%20async%20function%20t()%7Bconsole.log(%22%F0%9F%94%8D%20%E9%96%8B%E5%A7%8B%E6%8E%83%E6%8F%8F%E4%B8%BB%E8%A1%A8%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8...%22)%3Bu()%3Bvar%20o%3DsetInterval(()%3D%3E%7Bu()%7D%2C300)%3Blet%20r%3D!1%3Bvar%20l%3Ddocument.querySelectorAll('div%5Bng-controller%3D%22RSBCM03Controller%22%5D%20table%20tbody%20tr')%3Bfor(let%20e%3D0%3Be%3Cl.length%3Be%2B%2B)%7Bvar%20n%3Dl%5Be%5D.querySelector(%22td%3Anth-child(5)%20a%22)%3Bif(n)%7Bvar%20c%3DparseInt(n.innerText.trim()%2C10)%3Bif(0%3Cc)return%20console.log(%60%3E%3E%3E%20%5B%E4%B8%BB%E8%A1%A8%5D%20%E7%99%BC%E7%8F%BE%E6%9C%AA%E6%AA%A2%E8%A6%96%E6%88%B6%E6%95%B8%3A%20%24%7Bc%7D%EF%BC%8C%E9%80%B2%E5%85%A5%E6%98%8E%E7%B4%B0...%60)%2Cn.click()%2Cr%3D!0%2Cawait%20s('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D')%3F(u()%2Cawait%20async%20function()%7Bfor(%3B%3B)%7Bvar%20e%2Ct%3Dawait%20g()%3Bif(!t)%7Bconsole.log(%22%F0%9F%93%8B%20%E7%84%A1%E6%9B%B4%E5%A4%9A%E5%AE%A2%E6%88%B6%E8%B3%87%E6%96%99%EF%BC%8C%E6%BA%96%E5%82%99%E9%97%9C%E9%96%89%E6%98%8E%E7%B4%B0%E8%A6%96%E7%AA%97...%22)%3Bfor(e%20of%20document.querySelectorAll('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D%20button.close'))if(i(e))%7Be.click()%3Bbreak%7Dreturn%20void%20await%20d('div%5Bng-controller%3D%22RSBCM03_DETAILController%22%5D')%7Dvar%20o%2Cr%3Dt.innerText.trim()%3Bif(console.log(%22%F0%9F%91%89%20%E9%BB%9E%E6%93%8A%E5%AE%A2%E6%88%B6%3A%20%22%2Br)%2Ct.click()%2Cr%3Dawait%20s('button%5Bng-click%3D%22checkCust()%22%5D'))await%20a(100)%2Cr.click()%2Cconsole.log(%22%E2%9C%85%20%E5%B7%B2%E9%80%81%E5%87%BA%E7%A2%BA%E8%AA%8D%22)%2Cawait%20d('div%5Bng-controller%3D%22RSBCM03_CHECKController%22%5D')%2Cawait%20a(200)%3Belse%7Bconsole.error(%22%E2%9A%A0%EF%B8%8F%20%E7%84%A1%E6%B3%95%E6%89%BE%E5%88%B0%E7%A2%BA%E8%AA%8D%E6%8C%89%E9%88%95%EF%BC%8C%E5%98%97%E8%A9%A6%E9%97%9C%E9%96%89...%22)%3Bfor(o%20of%20document.querySelectorAll('div%5Bng-controller%3D%22RSBCM03_CHECKController%22%5D%20button.close'))if(i(o))%7Bo.click()%2Cawait%20a(500)%3Bbreak%7D%7D%7D%7D()%2CclearInterval(o)%2Ct())%3A(console.error(%22%E2%9D%8C%20%E9%8C%AF%E8%AA%A4%EF%BC%9ABCM03-2%20%E6%9C%AA%E9%96%8B%E5%95%9F%22)%2Cvoid%20clearInterval(o))%7D%7Dr%7C%7C(clearInterval(o)%2Cconsole.log(%22%E2%9C%85%20%E5%85%A8%E9%83%A8%E4%BD%9C%E6%A5%AD%E7%B5%90%E6%9D%9F%EF%BC%81%22)%2Calert(%22%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22))%7D()%7D()%7D)();">BCM03自動簽核</a>
+        </div>
+
+        <div class="tool-card">
+            <span class="bcm-tag bcm-04">BCM04</span>
+            <h2>BCM04 自動簽核</h2>
+            <p>BCM04 全流程自動化腳本 V2.9</p>
+            <a class="bookmarklet"
+                href="javascript:(function()%7B!async%20function()%7Bconsole.log(%22%F0%9F%9A%80%20BCM04%20%E5%85%A8%E6%B5%81%E7%A8%8B%E6%95%B4%E5%90%88%E8%87%AA%E5%8B%95%E5%8C%96%E8%85%B3%E6%9C%AC%20V2.9%20(%E9%82%8F%E8%BC%AF%E5%84%AA%E5%8C%96%E7%89%88)%20%E5%95%9F%E5%8B%95...%22)%3Bvar%20l%3Dnew%20Set%3Bconst%20r%3Dt%3D%3Enew%20Promise(e%3D%3EsetTimeout(e%2Ct))%3Bfunction%20i(e)%7Breturn!(!e%7C%7C!(e.offsetWidth%7C%7Ce.offsetHeight%7C%7Ce.getClientRects().length))%7Dasync%20function%20c(e%2Ct%3D1e4)%7Bfor(var%20o%3DDate.now()%3BDate.now()-o%3Ct%3B)%7Bvar%20n%3Ddocument.evaluate(e%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(i(n))return%20n%3Bawait%20r(500)%7Dreturn%20null%7Dfunction%20s()%7Bvar%20e%3DArray.from(document.querySelectorAll('button.close%2C%20.ngdialog-close%2C%20button%5Btitle%3D%22Close%22%5D%2C%20span.ui-icon-closethick')).filter(e%3D%3Ei(e))%3B0%3Ce.length%3Fe%5Be.length-1%5D.click()%3Adocument.dispatchEvent(new%20KeyboardEvent(%22keydown%22%2C%7BkeyCode%3A27%2Cwhich%3A27%2Ckey%3A%22Escape%22%7D))%7Dasync%20function%20u(e)%7Bif(e)%7Be.hasAttribute(%22disabled%22)%26%26(e.removeAttribute(%22disabled%22)%2Ce.classList.remove(%22disabled%22)%2Ce.disabled%3D!1%2Cawait%20r(50))%3Btry%7Be.scrollIntoView(%7Bbehavior%3A%22auto%22%2Cblock%3A%22center%22%7D)%7Dcatch(e)%7B%7De.dispatchEvent(new%20MouseEvent(%22mousedown%22%2C%7Bbubbles%3A!0%7D))%2Ce.dispatchEvent(new%20MouseEvent(%22mouseup%22%2C%7Bbubbles%3A!0%7D))%2Ce.click()%2Cawait%20r(200)%7D%7Dasync%20function%20f(t%2Ce)%7Bconsole.log(%22%20%20%20%5BBCM04-5%5D%20%E6%AD%A3%E5%9C%A8%E8%A8%AD%E5%AE%9A%EF%BC%9A%22%2Bt)%3Blet%20o%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26!(o%3Dfunction(e)%7Bvar%20t%3Ddocument.evaluate(%60%2F%2F*%5Bcontains(text()%2C%20'%24%7Be%7D')%20and%20not(self%3A%3Ascript)%5D%60%2Cdocument%2Cnull%2CXPathResult.ORDERED_NODE_SNAPSHOT_TYPE%2Cnull)%3Bfor(let%20e%3D0%3Be%3Ct.snapshotLength%3Be%2B%2B)%7Bvar%20n%3Dt.snapshotItem(e)%3Bif(i(n))%7Blet%20t%3Dn.parentElement%2Co%3Dnull%3Bfor(let%20e%3D0%3Be%3C5%26%26t%3Be%2B%2B)%7Bvar%20a%3Dt.querySelectorAll(%22.custom-combobox-toggle%22)%3Bif(0%3Ca.length)for(var%20l%20of%20a)if(n.compareDocumentPosition(l)%26Node.DOCUMENT_POSITION_FOLLOWING)%7Bo%3Dl%3Bbreak%7Dif(o)break%3Bt%3Dt.parentElement%7Dif(o)return%20o%7D%7Dreturn%20null%7D(t))%3Be%2B%2B)await%20r(200)%3Bif(!o)return%20console.error(%60%20%20%20%E2%9D%8C%20%E5%9C%A8%20%22%24%7Bt%7D%22%20%E9%99%84%E8%BF%91%E6%89%BE%E4%B8%8D%E5%88%B0%E4%B8%8B%E6%8B%89%E6%8C%89%E9%88%95%60)%2C!1%3Bawait%20u(o)%3Blet%20n%3Dnull%3Bfor(let%20e%3D0%3Be%3C10%3Be%2B%2B)%7Bvar%20a%3Bfor(a%20of%20document.querySelectorAll(%22ul.ui-autocomplete%22))if(i(a))%7Bn%3Da%3Bbreak%7Dif(n)break%3Bawait%20r(100)%7Dvar%20l%3Breturn%20n%3F(l%3Dn.querySelectorAll(%22li.ui-menu-item%20a%2C%20li.ui-menu-item%22)).length%3Ee%3F(await%20u(l%5Be%5D)%2C!0)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E9%81%B8%E9%A0%85%E6%95%B8%E9%87%8F%E4%B8%8D%E8%B6%B3%22)%2Cawait%20u(o)%2C!1)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E9%81%B8%E5%96%AE%E6%9C%AA%E5%BD%88%E5%87%BA%22)%2Cawait%20u(o)%2C!1)%7Dvar%20e%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%9F%A5%E8%A9%A2')%5D%22%2C3e3)%3Bfor(e%26%26(console.log(%22%E6%AD%A5%E9%A9%9F%201%3A%20%E9%BB%9E%E6%93%8A%20BCM04-1%20%5B%E6%9F%A5%E8%A9%A2%5D%22)%2Cawait%20u(e)%2Cawait%20r(2e3))%3B%3B)%7Bconsole.log(%22%E6%AD%A5%E9%A9%9F%202%3A%20%E5%B0%8B%E6%89%BE%20%5B%E5%AE%A2%E6%88%B6%E6%95%B8%5D%20%E6%AC%84%E4%BD%8D%E7%9A%84%E6%98%9F%E8%99%9F...%22)%3Bvar%20t%3Dawait%20c(%22%2F%2Ftd%2Fa%5Bcontains(text()%2C%20'*')%5D%22%2C3e3)%3Bif(!t)%7Bconsole.log(%22%E2%9C%85%20%E7%95%AB%E9%9D%A2%E4%B8%8A%E5%B7%B2%E7%84%A1%E6%98%9F%E8%99%9F%EF%BC%8C%E6%B5%81%E7%A8%8B%E7%B5%90%E6%9D%9F%EF%BC%81%22)%2Calert(%22%E4%B9%99%E4%BB%94%E8%87%AA%E5%8B%95%E5%8C%96%E7%B0%BD%E6%A0%B8%E5%A0%B1%E8%A1%A8%E5%B0%8F%E7%A8%8B%E5%BC%8F%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%81%22)%3Bbreak%7Dfor(console.log(%22%3E%3E%3E%20%E9%80%B2%E5%85%A5%E6%98%9F%E8%99%9F%E9%80%A3%E7%B5%90...%22)%2Cawait%20u(t)%2Cawait%20r(3e3)%3B%3B)%7Blet%20e%3Dnull%3Bfor(const%20h%20of%20document.querySelectorAll(%22table%22))if(h.innerText.includes(%22%E5%AE%A2%E6%88%B6%E5%A7%93%E5%90%8D%22)%26%26h.innerText.includes(%22%E5%B7%B2%E7%A2%BA%E8%AA%8D%22))%7Be%3Dh%3Bbreak%7Dif(!e)%7Bconsole.warn(%22%E2%9A%A0%EF%B8%8F%20%E6%89%BE%E4%B8%8D%E5%88%B0%20BCM04-2%20%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%8F%AF%E8%83%BD%E5%B0%9A%E6%9C%AA%E8%BC%89%E5%85%A5%E6%88%96%E5%B7%B2%E9%97%9C%E9%96%89%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dvar%20w%3De.querySelectorAll(%22tbody%20tr%22)%3Bif(0%3D%3D%3Dw.length%7C%7C1%3D%3D%3Dw.length%26%26w%5B0%5D.innerText.includes(%22%E7%84%A1%E8%B3%87%E6%96%99%22))%7Bconsole.log(%22%3E%3E%3E%20BCM04-2%20%E7%84%A1%E8%B3%87%E6%96%99%EF%BC%8C%E8%BF%94%E5%9B%9E%E4%B8%8A%E4%B8%80%E5%B1%A4...%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dlet%20t%3Dnull%2Co%3D%22%22%3Bfor(const%20m%20of%20w)%7Bvar%20d%3Dm.querySelector('input%5Btype%3D%22checkbox%22%5D')%2Cg%3Dm.querySelector(%22a%22)%3Bif(g)%7Bg%3Dg.innerText.trim()%2Cd%3Dd%26%26d.checked%3Bif(!d%26%26!l.has(g))%7Bt%3Dm%2Co%3Dg%3Bbreak%7D%7D%26%26l.add(g)%7D%7Dif(!t)%7Bconsole.log(%22%E2%9C%85%20BCM04-2%20%E5%88%97%E8%A1%A8%E6%8E%83%E6%8F%8F%E5%AE%8C%E7%95%A2%20(%E6%89%80%E6%9C%89%E5%AE%A2%E6%88%B6%E7%9A%86%E5%B7%B2%E7%A2%BA%E8%AA%8D%E6%88%96%E5%89%9B%E8%99%95%E7%90%86%E5%AE%8C)%E3%80%82%22)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%EF%BC%8C%E5%9B%9E%E5%88%B0%E4%B8%8A%E4%B8%80%E5%B1%A4...%22)%2Cs()%2Cawait%20r(2e3)%3Bbreak%7Dconsole.log(%60%E6%AD%A5%E9%A9%9F%203%3A%20%E9%BB%9E%E6%93%8A%E5%AE%A2%E6%88%B6%20%5B%24%7Bo%7D%5D%20(%E6%9C%AA%E7%A2%BA%E8%AA%8D)%60)%2Cawait%20u(t.querySelector(%22a%22))%2Cconsole.log(%22%E6%AD%A5%E9%A9%9F%204%3A%20%E7%AD%89%E5%BE%85%E5%AE%A2%E6%88%B6%E9%A0%81%E8%B3%87%E6%96%99%E8%BC%89%E5%85%A5%20(%E7%B4%84%205%20%E7%A7%92)...%22)%2Cawait%20r(5e3)%2Cconsole.log(%22%20%20%20-%3E%20%E5%B0%8B%E6%89%BE%20%5B%E6%9B%B4%E5%A4%9A%3E%3E%5D%20%E6%8C%89%E9%88%95%E4%B8%A6%E5%98%97%E8%A9%A6%E9%BB%9E%E6%93%8A...%22)%3Blet%20n%3Ddocument.querySelector(%22a%5Bng-click*%3D'toCHSAM120'%5D%22)%2Ca%3D!1%3Bif(n%3Dn%7C%7Cawait%20c(%22%2F%2Fa%5Bcontains(text()%2C%20'%E6%9B%B4%E5%A4%9A')%5D%22%2C3e3))for(let%20e%3D1%3Be%3C%3D3%3Be%2B%2B)try%7Bif(console.log(%60%20%20%20%20%20%20(%E7%AC%AC%20%24%7Be%7D%20%E6%AC%A1%E5%98%97%E8%A9%A6)%20%E8%81%9A%E7%84%A6%E4%B8%A6%E9%BB%9E%E6%93%8A...%60)%2Cn.focus()%2Cn.dispatchEvent(new%20Event(%22focus%22))%2Cawait%20r(300)%2Cn.click()%2Cawait%20c(%22%2F%2F*%5Bcontains(text()%2C%20'%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84%E6%9F%A5%E8%A9%A2')%5D%22%2C2500))%7Bconsole.log(%22%20%20%20%20%20%20-%3E%20%E8%A6%96%E7%AA%97%E9%96%8B%E5%95%9F%E6%88%90%E5%8A%9F%EF%BC%81%22)%2Ca%3D!0%3Bbreak%7Dconsole.warn(%22%20%20%20%20%20%20-%3E%20%E9%BB%9E%E6%93%8A%E5%BE%8C%E7%84%A1%E5%8F%8D%E6%87%89%EF%BC%8C%E7%AD%89%E5%BE%85%E9%87%8D%E8%A9%A6...%22)%2Cawait%20r(1500)%7Dcatch(e)%7Bconsole.error(%22%E9%BB%9E%E6%93%8A%E9%8C%AF%E8%AA%A4%3A%22%2Ce)%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%9B%B4%E5%A4%9A%5D%20%E6%8C%89%E9%88%95%60)%3Bif(a)%7Bconsole.log(%22%E6%AD%A5%E9%A9%9F%205%3A%20%E5%B0%8B%E6%89%BE%20%5B%E6%96%B0%E5%A2%9E%5D...%22)%3Bw%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E6%96%B0%E5%A2%9E')%5D%22%2C5e3)%3Bif(w)if(await%20u(w)%2Cconsole.log(%22%E6%AD%A5%E9%A9%9F%206%3A%20BCM04-5%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB...%22)%2Cawait%20c(%22%2F%2F*%5Bcontains(text()%2C%20'%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90')%5D%22%2C5e3))%7Bconsole.log(%22%20%20%20-%3E%20%E7%AD%89%E5%BE%85%E8%A1%A8%E5%96%AE%E5%85%83%E4%BB%B6%E6%B8%92%E6%9F%93...%22)%2Cawait%20r(1e3)%3Btry%7Bawait%20f(%22%E5%AE%A2%E6%88%B6%E4%BE%86%E6%BA%90%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E7%AE%A1%E9%81%93%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E7%B5%90%E6%9E%9C%22%2C1)%2Cawait%20f(%22%E8%81%AF%E7%B9%AB%E8%8A%B1%E8%B2%BB%E6%99%82%E9%96%93%22%2C1)%2Cawait%20async%20function(e)%7Bconsole.log(%22%20%20%20%5BBCM04-5%5D%20%E7%A7%BB%E5%8B%95%E9%A0%85%E7%9B%AE%EF%BC%9A%22%2Be)%3Bvar%20t%2Co%3Ddocument.evaluate(%60%2F%2Foption%5Bcontains(text()%2C%20'%24%7Be%7D')%5D%60%2Cdocument%2Cnull%2CXPathResult.FIRST_ORDERED_NODE_TYPE%2Cnull).singleNodeValue%3Bif(!o)return%20console.error(%60%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%E9%A0%85%E7%9B%AE%20%22%24%7Be%7D%22%60)%2C!1%3Bif(o.selected%3D!0%2Co.parentElement.dispatchEvent(new%20Event(%22change%22%2C%7Bbubbles%3A!0%7D))%2C%22undefined%22!%3Dtypeof%20angular)try%7Bangular.element(o.parentElement).triggerHandler(%22change%22)%7Dcatch(e)%7B%7Dawait%20r(300)%3Blet%20n%3Do.parentElement.parentElement%2Ca%3Dnull%3Bfor(let%20e%3D0%3Be%3C6%26%26n%3Be%2B%2B)%7Bfor(t%20of%20n.querySelectorAll(%22button%2C%20a.btn%2C%20div.btn%22))%7Bvar%20l%3Dt.innerText.trim()%3Bif((%22%3E%22%3D%3D%3Dl%7C%7C%22%E2%80%BA%22%3D%3D%3Dl%7C%7Ct.innerHTML.includes(%22ui-icon-triangle-1-e%22)%7C%7Ct.innerHTML.includes(%22glyphicon-chevron-right%22))%26%26i(t))%7Ba%3Dt%3Bbreak%7D%7Dif(a)break%3Bn%3Dn.parentElement%7Dreturn%20a%3F(await%20u(a)%2Cconsole.log(%22%20%20%20%20%20%20-%3E%20%E5%B7%B2%E6%8C%89%E4%B8%8B%E7%A7%BB%E5%8B%95%E6%8C%89%E9%88%95%22)%2C!0)%3A(console.error(%22%20%20%20%E2%9D%8C%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%3E%5D%20%E7%A7%BB%E5%8B%95%E6%8C%89%E9%88%95%22)%2C!1)%7D(%22%E5%AE%9A%E6%9C%9F%E6%AA%A2%E8%A6%96%E6%B7%A8%E5%80%BC%E7%AE%A1%E7%90%86%E6%95%88%E7%9B%8A%22)%2Cconsole.log(%22%20%20%20-%3E%20%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%96%AE%20(%E7%A2%BA%E5%AE%9A)%22)%3Bvar%20b%3Dawait%20c(%22%2F%2Fbutton%5Bcontains(text()%2C%20'%E7%A2%BA%E5%AE%9A')%5D%22%2C2e3)%3Bif(!b)throw%20new%20Error(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E7%A2%BA%E5%AE%9A%E6%8C%89%E9%88%95%22)%3Bawait%20u(b)%2Cawait%20r(2e3)%2Cconsole.log(%60%E2%9C%85%20%E5%AE%A2%E6%88%B6%20%5B%24%7Bo%7D%5D%20%E8%99%95%E7%90%86%E6%88%90%E5%8A%9F%60)%2Cl.add(o)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%20BCM04-4%22)%2Cs()%2Cawait%20r(800)%2Cconsole.log(%22%20%20%20-%3E%20%E9%97%9C%E9%96%89%20BCM04-3%22)%2Cs()%2Cawait%20r(1e3)%7Dcatch(e)%7Bconsole.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E8%A1%A8%E5%96%AE%E5%A1%AB%E5%AF%AB%E5%A4%B1%E6%95%97%3A%60%2Ce)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(500)%7D%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E8%A1%A8%E5%96%AE%E6%9C%AA%E9%96%8B%E5%95%9F%EF%BC%8C%E9%87%8D%E8%A9%A6...%60)%2Cs()%2Cs()%2Cs()%3Belse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E6%89%BE%E4%B8%8D%E5%88%B0%20%5B%E6%96%B0%E5%A2%9E%5D%20%E6%8C%89%E9%88%95%EF%BC%8C%E9%87%8D%E8%A9%A6...%60)%2Cs()%2Cawait%20r(500)%2Cs()%2Cawait%20r(1e3)%7Delse%20console.error(%60%E2%9D%8C%20%5B%24%7Bo%7D%5D%20%E4%BA%92%E5%8B%95%E7%B4%80%E9%8C%84%E8%A6%96%E7%AA%97%E6%9C%AA%E9%96%8B%E5%95%9F%20(%E9%87%8D%E8%A9%A6%E5%A4%B1%E6%95%97)%EF%BC%8C%E9%97%9C%E9%96%89%E8%A6%96%E7%AA%97%E9%87%8D%E6%96%B0%E9%96%8B%E5%A7%8B...%60)%2Cs()%2Cawait%20r(1e3)%7D%7D%7D()%7D)();">BCM04自動簽核</a>
+        </div>
+    </div>
+
+    <div class="password-section">
+        <h2>🔐 進階功能解鎖</h2>
+        <input type="password" id="password-input" placeholder="輸入密碼解鎖進階功能" />
+        <button id="unlock-button">解鎖</button>
+    </div>
+
+    <div id="hidden-features">
+        <div class="hidden-section">
+            <h2>⚡ 隱藏進階功能</h2>
+            <div class="grid-container">
+                <div class="tool-card">
+                    <h2>自動填答書籤</h2>
+                    <p>自動填寫測驗答案</p>
+                    <a class="bookmarklet" href="javascript:(function(){
       try {
         let rows = document.querySelectorAll('tr[name=&quot;h&quot;]');
         let filled = 0;
@@ -768,111 +715,100 @@
       } catch(e) {
         alert('⚠️ 錯誤：' + e.message);
       }
-    })();"
-                            >自動填答書籤</a
-                        >
-                    </div>
-
-                    <div class="tool-card">
-                        <h2>自動影片儲存</h2>
-                        <p>自動儲存多個影片</p>
-                        <a class="bookmarklet" id="bookmarklet-link" href="#"
-                            >自動影片書籤</a
-                        >
-                    </div>
-
-                    <div class="tool-card">
-                        <h2>公出單自動填寫</h2>
-                        <p>公出單自動填寫</p>
-                        <a
-                            class="bookmarklet"
-                            href="javascript:(function()%7B!function()%7Bvar%20l%3D%22%E9%A0%90%E8%A8%AD%E6%8B%9C%E8%A8%AA%E5%AE%A2%E6%88%B6%E5%85%AC%E5%8F%B8%22%2Cn%3D%22%E9%A0%90%E8%A8%AD%E5%B0%8D%E8%B1%A1%22%2Cc%3D%220%22%2Co%3D%22%E6%A5%AD%E5%8B%99%E6%B4%BD%E8%AB%87%22%2Ce%3D%22%E7%84%A1%E3%80%82%22%3Bif(%22undefined%22%3D%3Dtypeof%20jQuery)alert(%22%E9%8C%AF%E8%AA%A4%EF%BC%9AjQuery%20%E6%9C%AA%E8%BC%89%E5%85%A5%E3%80%82%22)%3Belse%20try%7B%24(%22%23radio-BankB%22).prop(%22checked%22%2C!0).trigger(%22click%22).trigger(%22change%22)%2C%24(%22%23radio-CompanionA%22).prop(%22checked%22%2C!0).trigger(%22change%22)%2C%24(%22%23FollowUp%22).val(e)%2CsetTimeout(function()%7Bvar%20e%3D%24(%22%23btnaddtext%22)%3Be.is(%22%3Avisible%22)%3F(e.trigger(%22click%22)%2CsetTimeout(function()%7Bvar%20e%3D%24(%22%23StartDateTime%22).val()%2Ce%3De%3Fnew%20Date(e.replace(%2F-%2Fg%2C%22%2F%22))%3Anew%20Date%2Ct%3Da%3Dnew%20Date(e.getTime()%2B18e5)%2Ce%3Dnew%20Date(e.getTime()%2B54e5)%2Ci%3D%24(%22%23trPlace%20td%22).text().trim()%2Cr%3D%24('th.table-primary%3Acontains(%22%E4%BA%8B%E7%94%B1%22)').next(%22td%22).text().trim()%3B%24(%22%23detailVisitCompany%22).val(i%7C%7Cl)%2C%24(%22%23detailVisitClient%22).val(r%7C%7Cn)%2C%24(%22%23detailTransportation%22).val(c).trigger(%22change%22)%2C%24(%22%23detailTransportationDesc%22).val(o)%2C%24(%22%23detailSetOffDateTime%22).val(g(t))%2C%24(%22%23detailArrivalDateTime%22).val(g(a))%2C%24(%22%23detailDepartureDateTime%22).val(g(e))%7D%2C500))%3Aalert(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E3%80%8C%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99%E3%80%8D%E6%8C%89%E9%88%95%EF%BC%8B%E8%AB%8B%E7%A2%BA%E8%AA%8D%E6%98%AF%E5%90%A6%E5%B7%B2%E6%AD%A3%E7%A2%BA%E5%88%86%E6%8F%9B%E7%82%BA%E3%80%8C%E8%A1%8C%E5%A4%96%E3%80%8D%E3%80%82%22)%7D%2C300)%7Dcatch(e)%7Balert(%22%E7%99%BC%E7%94%9F%E9%8C%AF%E8%AA%A4%EF%BC%9A%22%2Be)%7Dfunction%20g(e)%7Breturn%20e.getFullYear()%2B%22-%22%2B(%220%22%2B(e.getMonth()%2B1)).slice(-2)%2B%22-%22%2B(%220%22%2Be.getDate()).slice(-2)%2B%22%20%22%2B(%220%22%2Be.getHours()).slice(-2)%2B%22%3A%22%2B(%220%22%2Be.getMinutes()).slice(-2)%7D%7D)()"
-                            >公出單自動填寫</a
-                        >
-                    </div>
+    })();">自動填答書籤</a>
                 </div>
-            </div>
-        </div>
 
-        <div class="related-section">
-            <h2>相關網站</h2>
-            <div class="related-grid">
                 <div class="tool-card">
-                    <h2>範例網站</h2>
-                    <p>
-                        這是一個禁用滑鼠右鍵與選取複製的網站，可以用上面的「解除限制」書籤來測試效果
-                    </p>
-                    <a
-                        class="bookmarklet"
-                        href="https://sfbook.com/scales.htm"
-                        target="_blank"
-                        >Book review of Scales</a
-                    >
+                    <h2>自動影片儲存</h2>
+                    <p>自動儲存多個影片</p>
+                    <a class="bookmarklet" id="bookmarklet-link" href="#">自動影片書籤</a>
+                </div>
+
+                <div class="tool-card">
+                    <h2>公出單自動填寫</h2>
+                    <p>公出單自動填寫</p>
+                    <a class="bookmarklet"
+                        href="javascript:(function()%7B!function()%7Bvar%20l%3D%22%E9%A0%90%E8%A8%AD%E6%8B%9C%E8%A8%AA%E5%AE%A2%E6%88%B6%E5%85%AC%E5%8F%B8%22%2Cn%3D%22%E9%A0%90%E8%A8%AD%E5%B0%8D%E8%B1%A1%22%2Cc%3D%220%22%2Co%3D%22%E6%A5%AD%E5%8B%99%E6%B4%BD%E8%AB%87%22%2Ce%3D%22%E7%84%A1%E3%80%82%22%3Bif(%22undefined%22%3D%3Dtypeof%20jQuery)alert(%22%E9%8C%AF%E8%AA%A4%EF%BC%9AjQuery%20%E6%9C%AA%E8%BC%89%E5%85%A5%E3%80%82%22)%3Belse%20try%7B%24(%22%23radio-BankB%22).prop(%22checked%22%2C!0).trigger(%22click%22).trigger(%22change%22)%2C%24(%22%23radio-CompanionA%22).prop(%22checked%22%2C!0).trigger(%22change%22)%2C%24(%22%23FollowUp%22).val(e)%2CsetTimeout(function()%7Bvar%20e%3D%24(%22%23btnaddtext%22)%3Be.is(%22%3Avisible%22)%3F(e.trigger(%22click%22)%2CsetTimeout(function()%7Bvar%20e%3D%24(%22%23StartDateTime%22).val()%2Ce%3De%3Fnew%20Date(e.replace(%2F-%2Fg%2C%22%2F%22))%3Anew%20Date%2Ct%3Da%3Dnew%20Date(e.getTime()%2B18e5)%2Ce%3Dnew%20Date(e.getTime()%2B54e5)%2Ci%3D%24(%22%23trPlace%20td%22).text().trim()%2Cr%3D%24('th.table-primary%3Acontains(%22%E4%BA%8B%E7%94%B1%22)').next(%22td%22).text().trim()%3B%24(%22%23detailVisitCompany%22).val(i%7C%7Cl)%2C%24(%22%23detailVisitClient%22).val(r%7C%7Cn)%2C%24(%22%23detailTransportation%22).val(c).trigger(%22change%22)%2C%24(%22%23detailTransportationDesc%22).val(o)%2C%24(%22%23detailSetOffDateTime%22).val(g(t))%2C%24(%22%23detailArrivalDateTime%22).val(g(a))%2C%24(%22%23detailDepartureDateTime%22).val(g(e))%7D%2C500))%3Aalert(%22%E6%89%BE%E4%B8%8D%E5%88%B0%E3%80%8C%E6%96%B0%E5%A2%9E%E8%B3%87%E6%96%99%E3%80%8D%E6%8C%89%E9%88%95%EF%BC%8B%E8%AB%8B%E7%A2%BA%E8%AA%8D%E6%98%AF%E5%90%A6%E5%B7%B2%E6%AD%A3%E7%A2%BA%E5%88%86%E6%8F%9B%E7%82%BA%E3%80%8C%E8%A1%8C%E5%A4%96%E3%80%8D%E3%80%82%22)%7D%2C300)%7Dcatch(e)%7Balert(%22%E7%99%BC%E7%94%9F%E9%8C%AF%E8%AA%A4%EF%BC%9A%22%2Be)%7Dfunction%20g(e)%7Breturn%20e.getFullYear()%2B%22-%22%2B(%220%22%2B(e.getMonth()%2B1)).slice(-2)%2B%22-%22%2B(%220%22%2Be.getDate()).slice(-2)%2B%22%20%22%2B(%220%22%2Be.getHours()).slice(-2)%2B%22%3A%22%2B(%220%22%2Be.getMinutes()).slice(-2)%7D%7D)()">公出單自動填寫</a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <footer>
-            <p>Made with ❤️ by 乙仔 | 未來風設計</p>
-        </footer>
+    <div class="related-section">
+        <h2>相關網站</h2>
+        <div class="related-grid">
+            <div class="tool-card">
+                <h2>範例網站</h2>
+                <p>
+                    這是一個禁用滑鼠右鍵與選取複製的網站，可以用上面的「解除限制」書籤來測試效果
+                </p>
+                <a class="bookmarklet" href="https://sfbook.com/scales.htm" target="_blank">Book review of Scales</a>
+            </div>
+        </div>
+    </div>
 
-        <script>
-            const code = `(async()=>{let options=$('#videoDDL option').get();let videoSrcs=options.map(op=>op.value);let videoNames=options.map(op=>op.innerText);async function loadVideoAndGetDuration(videoSrc){return new Promise((resolve,reject)=>{let player=videojs("my-video");player.src(videoSrc);player.on('loadedmetadata',()=>resolve(Math.floor(player.duration())));player.on('error',()=>reject(new Error('影片載入失敗')));setTimeout(()=>reject(new Error('載入超時')),10000);});}function saveMedia(){return new Promise((resolve,reject)=>{$.post("/EL_MediaPlay/Save",$("#fm").serialize()).done(response=>resolve(response)).fail(error=>reject(error));});}for(let i=0;i<videoSrcs.length;i++){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());const start=new Date();try{const duration=await loadVideoAndGetDuration(videoSrcs[i]);console.log('cost',((new Date()).getTime()-start.getTime())/1000,'秒',videoSrcs[i],videoNames[i],duration);if(duration&&duration>0){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());$('#videotimes').val(duration);try{const resp=await saveMedia();console.log(\`第 \${i+1} 個影片保存成功\`,resp);}
+    <footer>
+        <p>Made with ❤️ by 乙仔 | 未來風設計</p>
+    </footer>
+
+    <script>
+        const code = `(async()=>{let options=$('#videoDDL option').get();let videoSrcs=options.map(op=>op.value);let videoNames=options.map(op=>op.innerText);async function loadVideoAndGetDuration(videoSrc){return new Promise((resolve,reject)=>{let player=videojs("my-video");player.src(videoSrc);player.on('loadedmetadata',()=>resolve(Math.floor(player.duration())));player.on('error',()=>reject(new Error('影片載入失敗')));setTimeout(()=>reject(new Error('載入超時')),10000);});}function saveMedia(){return new Promise((resolve,reject)=>{$.post("/EL_MediaPlay/Save",$("#fm").serialize()).done(response=>resolve(response)).fail(error=>reject(error));});}for(let i=0;i<videoSrcs.length;i++){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());const start=new Date();try{const duration=await loadVideoAndGetDuration(videoSrcs[i]);console.log('cost',((new Date()).getTime()-start.getTime())/1000,'秒',videoSrcs[i],videoNames[i],duration);if(duration&&duration>0){$("#Medianame").val(videoNames[i]);$("#MediaNo").val($("input[name='"+videoNames[i]+"']").val());$('#videotimes').val(duration);try{const resp=await saveMedia();console.log(\`第 \${i+1} 個影片保存成功\`,resp);}
             catch(error){console.error(\`第 \${i+1} 個影片保存失敗:\`,error);}}}catch(e){console.error(\`第 \${i+1} 個影片發生錯誤\`,e);}}console.log('done');setTimeout(()=>window.close(),1000);})();`;
 
-            const bookmarkHref = "javascript:" + encodeURIComponent(code);
-            document.getElementById("bookmarklet-link").href = bookmarkHref;
-        </script>
+        const bookmarkHref = "javascript:" + encodeURIComponent(code);
+        document.getElementById("bookmarklet-link").href = bookmarkHref;
+    </script>
 
-        <script>
-            const themeToggle = document.getElementById("theme-toggle");
-            const html = document.documentElement;
+    <script>
+        const themeToggle = document.getElementById("theme-toggle");
+        const html = document.documentElement;
 
-            themeToggle.addEventListener("click", () => {
-                if (html.getAttribute("data-theme") === "light") {
-                    html.setAttribute("data-theme", "dark");
-                    themeToggle.textContent = "🌙 黑暗模式";
-                    localStorage.setItem("theme", "dark");
-                } else {
-                    html.setAttribute("data-theme", "light");
-                    themeToggle.textContent = "☀️ 明亮模式";
-                    localStorage.setItem("theme", "light");
-                }
-            });
-
-            const savedTheme = localStorage.getItem("theme");
-            if (savedTheme === "light") {
+        themeToggle.addEventListener("click", () => {
+            if (html.getAttribute("data-theme") === "light") {
+                html.setAttribute("data-theme", "dark");
+                themeToggle.textContent = "🌙 黑暗模式";
+                localStorage.setItem("theme", "dark");
+            } else {
                 html.setAttribute("data-theme", "light");
                 themeToggle.textContent = "☀️ 明亮模式";
+                localStorage.setItem("theme", "light");
             }
-        </script>
+        });
 
-        <script>
-            document
-                .getElementById("unlock-button")
-                .addEventListener("click", function () {
-                    const passwordInput =
-                        document.getElementById("password-input");
-                    if (passwordInput.value === "6322441") {
-                        document.getElementById(
-                            "hidden-features",
-                        ).style.display = "block";
-                        document.querySelector(
-                            ".password-section",
-                        ).style.display = "none";
-                    } else {
-                        alert("密碼錯誤");
-                        passwordInput.value = "";
-                    }
-                });
-            document
-                .getElementById("password-input")
-                .addEventListener("keyup", function (event) {
-                    if (event.key === "Enter") {
-                        event.preventDefault();
-                        document.getElementById("unlock-button").click();
-                    }
-                });
-        </script>
-    </body>
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "light") {
+            html.setAttribute("data-theme", "light");
+            themeToggle.textContent = "☀️ 明亮模式";
+        }
+    </script>
+
+    <script>
+        document
+            .getElementById("unlock-button")
+            .addEventListener("click", function () {
+                const passwordInput =
+                    document.getElementById("password-input");
+                if (passwordInput.value === "6322441") {
+                    document.getElementById(
+                        "hidden-features",
+                    ).style.display = "block";
+                    document.querySelector(
+                        ".password-section",
+                    ).style.display = "none";
+                } else {
+                    alert("密碼錯誤");
+                    passwordInput.value = "";
+                }
+            });
+        document
+            .getElementById("password-input")
+            .addEventListener("keyup", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("unlock-button").click();
+                }
+            });
+    </script>
+</body>
+
 </html>
