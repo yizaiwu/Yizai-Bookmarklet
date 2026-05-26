@@ -566,10 +566,159 @@
         [data-theme="light"] footer {
             color: rgba(0, 0, 0, 0.4);
         }
+
+        /* ===== 全頁密碼保護樣式 ===== */
+        #page-lock-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse at 30% 30%, rgba(157,0,255,0.25) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(0,247,255,0.2) 0%, transparent 50%),
+                var(--bg-dark);
+            backdrop-filter: blur(20px);
+        }
+        #page-lock-overlay.unlocked {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .lock-box {
+            text-align: center;
+            background: rgba(20, 20, 50, 0.8);
+            border: 1px solid rgba(0,247,255,0.2);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow:
+                0 0 40px rgba(0,247,255,0.15),
+                0 0 80px rgba(157,0,255,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+            animation: lockBoxAppear 0.6s ease;
+        }
+        [data-theme="light"] .lock-box {
+            background: rgba(255,255,255,0.85);
+            border-color: rgba(0,136,170,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        @keyframes lockBoxAppear {
+            from { transform: scale(0.9) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .lock-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
+            animation: lockPulse 2s ease-in-out infinite;
+        }
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0,247,255,0.5)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(0,247,255,0.8)); }
+        }
+        .lock-box h2 {
+            font-family: "Orbitron", sans-serif;
+            color: var(--neon-cyan);
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+        .lock-box .lock-subtitle {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85em;
+            margin-bottom: 30px;
+        }
+        [data-theme="light"] .lock-box .lock-subtitle {
+            color: rgba(0,0,0,0.5);
+        }
+        #page-pw-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(0,247,255,0.3);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 8px;
+            outline: none;
+            transition: all 0.3s;
+            font-family: "Orbitron", monospace;
+            box-sizing: border-box;
+        }
+        [data-theme="light"] #page-pw-input {
+            background: rgba(0,0,0,0.05);
+            color: #333;
+            border-color: rgba(0,136,170,0.4);
+        }
+        #page-pw-input:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0,247,255,0.3);
+        }
+        #page-pw-input.shake {
+            animation: shakeInput 0.4s ease;
+            border-color: #ff4444;
+        }
+        @keyframes shakeInput {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        #page-unlock-btn {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: "Orbitron", sans-serif;
+            cursor: pointer;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        #page-unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,247,255,0.4);
+        }
+        .lock-error {
+            color: #ff4444;
+            font-size: 0.85em;
+            margin-top: 12px;
+            min-height: 20px;
+        }
+        #page-content-wrapper {
+            display: none;
+        }
+        #page-content-wrapper.visible {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
+    <!-- ===== 全頁密碼保護覆蓋層 ===== -->
+    <div id="page-lock-overlay">
+        <div class="lock-box">
+            <h1 style="font-family:'Noto Sans TC',sans-serif;font-size:1.6em;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px;letter-spacing:3px;">乙仔書籤小工具收集網</h1>
+            <span class="lock-icon">🔒</span>
+            <h2>ACCESS LOCKED</h2>
+            <p class="lock-subtitle">請輸入密碼以存取此頁面</p>
+            <input type="password" id="page-pw-input" placeholder="••••••••" autocomplete="off" autofocus />
+            <button id="page-unlock-btn">解鎖 UNLOCK</button>
+            <p class="lock-error" id="page-lock-error"></p>
+        </div>
+    </div>
+
+    <!-- ===== 主要頁面內容（預設隱藏） ===== -->
+    <div id="page-content-wrapper">
     <button class="theme-toggle" id="theme-toggle">🌙 黑暗模式</button>
 
     <h1>乙仔書籤小工具收集網</h1>
@@ -808,6 +957,54 @@
                     document.getElementById("unlock-button").click();
                 }
             });
+    </script>
+    </div><!-- end page-content-wrapper -->
+
+    <script>
+        // 全頁密碼保護 - 使用 SHA-256 雜湊比對
+        (function() {
+            const HASH = 'bdd0531a9dfb859d468635f9a53b5fad2dcc7b0a4dbb6c4745a1611bf5f4b560';
+            const overlay = document.getElementById('page-lock-overlay');
+            const wrapper = document.getElementById('page-content-wrapper');
+            const input = document.getElementById('page-pw-input');
+            const btn = document.getElementById('page-unlock-btn');
+            const errEl = document.getElementById('page-lock-error');
+
+            // 檢查是否已在此 session 中驗證過
+            if (sessionStorage.getItem('page_unlocked') === '1') {
+                overlay.style.display = 'none';
+                wrapper.classList.add('visible');
+            }
+
+            async function sha256(text) {
+                const buf = await crypto.subtle.digest('SHA-256',
+                    new TextEncoder().encode(text));
+                return Array.from(new Uint8Array(buf))
+                    .map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            async function tryUnlock() {
+                const pw = input.value;
+                if (!pw) return;
+                const hash = await sha256(pw);
+                if (hash === HASH) {
+                    sessionStorage.setItem('page_unlocked', '1');
+                    overlay.classList.add('unlocked');
+                    wrapper.classList.add('visible');
+                    setTimeout(function(){ overlay.style.display = 'none'; }, 500);
+                } else {
+                    errEl.textContent = '❌ 密碼錯誤，請重新輸入';
+                    input.classList.add('shake');
+                    input.value = '';
+                    setTimeout(function(){ input.classList.remove('shake'); }, 400);
+                }
+            }
+
+            btn.addEventListener('click', tryUnlock);
+            input.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') tryUnlock();
+            });
+        })();
     </script>
 </body>
 
